@@ -1,29 +1,58 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+// import 'package:path_provider/path_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   File? _image;
-// bool _isLoading = false;
+  String prediction = 'Loading...';
+  String translation = 'No translation yet...';
+
   Future getImage(bool isCamera) async {
-    var selectedImage;
+    XFile? selectedImage;
     if (isCamera) {
       selectedImage = await ImagePicker().pickImage(source: ImageSource.camera);
     } else {
       selectedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
-    }
-
-    setState(() {
       _image = File(selectedImage!.path);
-    });
+    }
+    setState(() {});
+  }
+
+  Future predict() async {
+    if (_image != null) {
+      // print('Yesssssssssssss');
+      var url = "http://10.0.2.2:3000/predict";
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      final headers = {"Content-type": "multipart/form-data"};
+      request.files.add(http.MultipartFile(
+          'image', _image!.readAsBytes().asStream(), _image!.lengthSync(),
+          filename: _image!.path.split('/').last));
+      request.headers.addAll(headers);
+      final response = await request.send();
+      http.Response res = await http.Response.fromStream(response);
+
+      if (response.statusCode == 200) {
+        // print('Yes eshta8al');
+        final resJson = jsonDecode(res.body);
+        prediction = resJson['prediction'];
+        translation = resJson['translation'];
+        setState(() {});
+      } else {
+        // print("Failed to make prediction ${response.statusCode}");
+        // print("Image Path: ${_image!.path}");
+      }
+    }
+    return prediction;
   }
 
   @override
@@ -36,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const Text(
-              'Kemet',
+              'Aegyptos',
               style: TextStyle(fontSize: 20.0),
             ),
             Row(
@@ -64,6 +93,21 @@ class _HomePageState extends State<HomePage> {
                     height: 300.0,
                     width: 300.0,
                   ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Text: $prediction',
+              style: const TextStyle(fontSize: 30),
+            ),
+            Text(
+              'Translation: $translation',
+              style: const TextStyle(fontSize: 20),
+            ),
+            ElevatedButton(
+              onPressed: predict,
+              child: const Text('Predict'),
+            ),
           ],
         ),
       ),
