@@ -31,7 +31,8 @@ class _HomePageState extends State<HomePage> {
   Future predict() async {
     if (_image != null) {
       // print('Yesssssssssssss');
-      var url = "http://10.0.2.2:3000/predict";
+      // var url = "http://10.0.2.2:3000/predict";
+      var url = "http://192.168.1.3:8000/predict";
       var request = http.MultipartRequest('POST', Uri.parse(url));
       final headers = {"Content-type": "multipart/form-data"};
       request.files.add(http.MultipartFile(
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Text(
               'Text: $prediction',
-              style: const TextStyle(fontSize: 30),
+              style: const TextStyle(fontSize: 20),
             ),
             Text(
               'Translation: $translation',
