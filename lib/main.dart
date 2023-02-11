@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'homepage.dart';
+import 'menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: 'homepage',
         routes: {
-          'homepage': (context) => const HomePage(),
+          'homepage': (context) => const MyScreen(),
         });
   }
 }
