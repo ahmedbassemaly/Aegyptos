@@ -32,7 +32,10 @@ class _HomePageState extends State<HomePage> {
     if (_image != null) {
       // print('Yesssssssssssss');
       // var url = "http://10.0.2.2:3000/predict";
-      var url = "http://192.168.1.3:8000/predict";
+      //LOCAL SERVER
+      // var url = "http://192.168.1.3:8000/predict";
+      //DEPLOYMENT SERVER
+      var url = "https://aegyptosflaskapp-2di2bjgsha-ey.a.run.app/predict";
       var request = http.MultipartRequest('POST', Uri.parse(url));
       final headers = {"Content-type": "multipart/form-data"};
       request.files.add(http.MultipartFile(
@@ -47,10 +50,14 @@ class _HomePageState extends State<HomePage> {
         final resJson = jsonDecode(res.body);
         prediction = resJson['prediction'];
         translation = resJson['translation'];
+        // print('hello');
         setState(() {});
       } else {
         // print("Failed to make prediction ${response.statusCode}");
         // print("Image Path: ${_image!.path}");
+        prediction = 'Failed to predict';
+        translation = 'Failed to translate';
+        setState(() {});
       }
     }
     return prediction;
