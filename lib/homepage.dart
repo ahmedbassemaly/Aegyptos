@@ -1,20 +1,33 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:path_provider/path_provider.dart';
+import 'package:kemet/widgets/drop_down_language.dart';
+import 'service/prediction.dart';
+// import 'data/pronunciation_data.dart';
+// import 'data/repositories/pronunciation_provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   File? _image;
   String prediction = 'Loading...';
   String translation = 'No translation yet...';
+  String pronunciation = '';
+  final FlutterTts flutterTts = FlutterTts();
+  final predict = Predict();
+  String? selectedLanguage;
+  String? _selectedValue;
 
   Future getImage(bool isCamera) async {
     XFile? selectedImage;
@@ -28,39 +41,21 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  Future predict() async {
-    if (_image != null) {
-      // print('Yesssssssssssss');
-      // var url = "http://10.0.2.2:3000/predict";
-      //LOCAL SERVER
-      // var url = "http://192.168.1.3:8000/predict";
-      //DEPLOYMENT SERVER
-      var url = "https://aegyptosflaskapp-2di2bjgsha-ey.a.run.app/predict";
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-      final headers = {"Content-type": "multipart/form-data"};
-      request.files.add(http.MultipartFile(
-          'image', _image!.readAsBytes().asStream(), _image!.lengthSync(),
-          filename: _image!.path.split('/').last));
-      request.headers.addAll(headers);
-      final response = await request.send();
-      http.Response res = await http.Response.fromStream(response);
+  late Stream<QuerySnapshot<Map<String, dynamic>>>? semanticsStream;
+  Future<void> _onPredictPressed() async {
+    final results = await predict.predict(_image);
 
-      if (response.statusCode == 200) {
-        // print('Yes eshta8al');
-        final resJson = jsonDecode(res.body);
-        prediction = resJson['prediction'];
-        translation = resJson['translation'];
-        // print('hello');
-        setState(() {});
-      } else {
-        // print("Failed to make prediction ${response.statusCode}");
-        // print("Image Path: ${_image!.path}");
-        prediction = 'Failed to predict';
-        translation = 'Failed to translate';
-        setState(() {});
-      }
-    }
-    return prediction;
+    setState(() {
+      prediction = results['prediction'].toString();
+      translation = results['translation'].toString();
+      pronunciation = results['gardinerCode'].toString();
+    });
+  }
+
+  speak(String text, String language) async {
+    await flutterTts.setLanguage(language);
+    await flutterTts.setPitch(1);
+    await flutterTts.speak(text);
   }
 
   @override
@@ -113,8 +108,30 @@ class _HomePageState extends State<HomePage> {
               style: const TextStyle(fontSize: 20),
             ),
             ElevatedButton(
-              onPressed: predict,
+              onPressed: _onPredictPressed,
               child: const Text('Predict'),
+            ),
+            DropdownLanguage(
+              onSelectedValueChanged: (String selectedValue) {
+                setState(() {
+                  _selectedValue = selectedValue;
+                });
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.volume_up),
+              onPressed: () {
+                if (_selectedValue == 'English') {
+                  selectedLanguage = 'en-US';
+                  speak(prediction, selectedLanguage!);
+                } else if (_selectedValue == 'Arabic') {
+                  selectedLanguage = 'ar-EG';
+                  speak(translation, selectedLanguage!);
+                } else if (_selectedValue == 'Hieroglyphics') {
+                  selectedLanguage = 'ar-EG';
+                  speak(pronunciation, selectedLanguage!);
+                }
+              },
             ),
           ],
         ),
