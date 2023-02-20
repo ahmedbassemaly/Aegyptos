@@ -16,7 +16,10 @@ class Predict {
       // print('Yesssssssssssss');
       // var url = "http://10.0.2.2:3000/predict";
       //LOCAL SERVER
-      var url = "http://192.168.1.3:8000/predict";
+      // var url = "http://192.168.1.3:8000/predict";
+
+      //Basma's URL
+      var url = "http://192.168.100.8:8000/predict";
       //DEPLOYMENT SERVER
       // var url = "https://aegyptosflaskapp-2di2bjgsha-ey.a.run.app/predict";
       var request = http.MultipartRequest('POST', Uri.parse(url));
