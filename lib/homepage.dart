@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:io';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -61,79 +62,167 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text('Select Image')),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const Text(
-              'Aegyptos',
-              style: TextStyle(fontSize: 20.0),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    getImage(false);
-                  },
-                  icon: const Icon(Icons.image_outlined),
-                ),
-                const SizedBox(height: 10.2),
-                IconButton(
-                  onPressed: () {
-                    getImage(true);
-                  },
-                  icon: const Icon(Icons.camera_alt_outlined),
-                ),
-              ],
-            ),
-            _image == null
-                ? Container()
-                : Image.file(
-                    _image!,
-                    height: 300.0,
-                    width: 300.0,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/Background4.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          child: ClipRRect(
+            // make sure we apply clip it properly
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                alignment: Alignment.center,
+                color: Colors.grey.withOpacity(0.3),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // IconButton(
+                          //   onPressed: () {
+                          //     getImage(false);
+                          //   },
+                          //   icon: const Icon(Icons.image_outlined),
+                          // ),
+                        ],
+                      ),
+                      _image == null
+                          ? GestureDetector(
+                              onTap: () {
+                                getImage(false);
+                              },
+                              child: Container(
+                                  height: 300.0,
+                                  width: 300.0,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      color: const Color.fromARGB(
+                                          213, 243, 243, 232)),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.cloud_upload_outlined,
+                                      size: 100,
+                                      color: Color.fromARGB(255, 115, 147, 179),
+                                    ),
+                                  )),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                getImage(false);
+                              },
+                              child: Container(
+                                height: 300,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: FileImage(_image!),
+                                        fit: BoxFit.cover),
+                                    borderRadius: BorderRadius.circular(15.0)),
+
+                                // child: Image.file(
+                                //   _image!,
+                                // ),
+                              ),
+                            ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Column(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Translation: ',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                prediction,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Arabic: ',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                translation,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                        ],
+                      ),
+                      ElevatedButton(
+                        onPressed: _onPredictPressed,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF7393b3),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: const Text(
+                          'Get Translation!',
+                          style: TextStyle(color: Colors.white, fontSize: 17),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 55),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            DropdownLanguage(
+                              onSelectedValueChanged: (String selectedValue) {
+                                setState(() {
+                                  _selectedValue = selectedValue;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.volume_up),
+                              color: Colors.white,
+                              iconSize: 35,
+                              onPressed: () {
+                                if (_selectedValue == 'English') {
+                                  selectedLanguage = 'en-US';
+                                  speak(prediction, selectedLanguage!);
+                                } else if (_selectedValue == 'Arabic') {
+                                  selectedLanguage = 'ar-EG';
+                                  speak(translation, selectedLanguage!);
+                                } else if (_selectedValue == 'Hieroglyphics') {
+                                  selectedLanguage = 'ar-EG';
+                                  speak(pronunciation, selectedLanguage!);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-            const SizedBox(
-              height: 20.0,
+                ),
+              ),
             ),
-            Text(
-              'Text: $prediction',
-              style: const TextStyle(fontSize: 20),
-            ),
-            Text(
-              'Translation: $translation',
-              style: const TextStyle(fontSize: 20),
-            ),
-            ElevatedButton(
-              onPressed: _onPredictPressed,
-              child: const Text('Predict'),
-            ),
-            DropdownLanguage(
-              onSelectedValueChanged: (String selectedValue) {
-                setState(() {
-                  _selectedValue = selectedValue;
-                });
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.volume_up),
-              onPressed: () {
-                if (_selectedValue == 'English') {
-                  selectedLanguage = 'en-US';
-                  speak(prediction, selectedLanguage!);
-                } else if (_selectedValue == 'Arabic') {
-                  selectedLanguage = 'ar-EG';
-                  speak(translation, selectedLanguage!);
-                } else if (_selectedValue == 'Hieroglyphics') {
-                  selectedLanguage = 'ar-EG';
-                  speak(pronunciation, selectedLanguage!);
-                }
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );
