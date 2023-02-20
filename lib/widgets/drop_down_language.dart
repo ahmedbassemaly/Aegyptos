@@ -33,8 +33,8 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
             children: const [
               Icon(
                 Icons.list,
-                size: 16,
-                color: Colors.yellow,
+                size: 22,
+                color: Colors.white,
               ),
               SizedBox(
                 width: 4,
@@ -43,9 +43,9 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
                 child: Text(
                   'Language',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
-                    color: Colors.yellow,
+                    color: Colors.white,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -76,8 +76,8 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
           icon: const Icon(
             Icons.arrow_forward_ios_outlined,
           ),
-          iconSize: 14,
-          iconEnabledColor: Colors.yellow,
+          iconSize: 18,
+          iconEnabledColor: Colors.white,
           iconDisabledColor: Colors.grey,
           buttonHeight: 50,
           buttonWidth: 160,
@@ -87,7 +87,7 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
             border: Border.all(
               color: Colors.black26,
             ),
-            color: Colors.redAccent,
+            color: const Color(0xFF7393b3),
           ),
           buttonElevation: 2,
           itemHeight: 40,
@@ -97,7 +97,7 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
           dropdownPadding: null,
           dropdownDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            color: Colors.redAccent,
+            color: const Color(0xFF7393b3),
           ),
           dropdownElevation: 8,
           scrollbarRadius: const Radius.circular(40),
