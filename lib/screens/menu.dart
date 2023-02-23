@@ -51,8 +51,22 @@ class _MyScreenState extends State<MyScreen> {
             ),
           ),
         ],
-        enableLoop: false,
+        enableLoop: true,
         fullTransitionValue: 600,
+        enableSideReveal: true,
+        slideIconWidget: Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFF808080).withOpacity(0.2),
+            child: const Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
