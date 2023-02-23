@@ -14,9 +14,8 @@ class Predict {
 
     if (_image != null) {
       // print('Yesssssssssssss');
-      // var url = "http://10.0.2.2:3000/predict";
-      //LOCAL SERVER
-      // // var url = "http://192.168.1.3:8000/predict";
+      //Bassom's URL
+      // var url = "http://192.168.1.3:8000/predict";
       //Reem's URL
       var url = "http://192.168.0.2:8000/predict";
       //Basma's URL
@@ -37,12 +36,13 @@ class Predict {
         final resJson = jsonDecode(res.body);
         results['prediction'] = resJson['prediction'].toString();
         results['translation'] = resJson['translation'].toString();
-        results['gardinerCode'] = resJson['gardinerCode'].toString();
+        results['gardinerCodePronunciation'] =
+            resJson['gardinerCodePronunciation'].toString();
       } else {
         print("Failed to make prediction ${response.statusCode}");
         results['prediction'] = 'Failed to predict';
         results['translation'] = 'Failed to translate';
-        results['gardinerCode'] = 'Failed to get gardiner code';
+        results['gardinerCodePronunciation'] = 'Failed to get gardiner code';
       }
     }
     return results;
