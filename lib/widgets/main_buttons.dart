@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../homepage.dart';
+import 'package:kemet/constants/constants.dart';
+import '../screens/homepage.dart';
 
 // ignore: must_be_immutable
 class MainButtons extends StatelessWidget {
@@ -18,7 +19,7 @@ class MainButtons extends StatelessWidget {
         text,
         style: const TextStyle(color: Colors.black, fontSize: 20),
       ),
-      backgroundColor: const Color.fromARGB(255, 243, 199, 148),
+      backgroundColor: ConstantsColors.primaryColor,
       icon: Icon(
         icon,
         size: 24.0,
@@ -26,7 +27,7 @@ class MainButtons extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       },
     );

@@ -2,6 +2,8 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
+
 // import 'package:kemet/homepage.dart';
 
 class DropdownLanguage extends StatefulWidget {
@@ -78,7 +80,6 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
           ),
           iconSize: 18,
           iconEnabledColor: Colors.white,
-          iconDisabledColor: Colors.grey,
           buttonHeight: 50,
           buttonWidth: 160,
           buttonPadding: const EdgeInsets.only(left: 14, right: 14),
@@ -87,7 +88,7 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
             border: Border.all(
               color: Colors.black26,
             ),
-            color: const Color(0xFF7393b3),
+            color: ConstantsColors.secondaryColor,
           ),
           buttonElevation: 2,
           itemHeight: 40,
@@ -97,7 +98,7 @@ class _DropdownLanguageState extends State<DropdownLanguage> {
           dropdownPadding: null,
           dropdownDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
-            color: const Color(0xFF7393b3),
+            color: ConstantsColors.secondaryColor,
           ),
           dropdownElevation: 8,
           scrollbarRadius: const Radius.circular(40),
