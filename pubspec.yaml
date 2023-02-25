@@ -25,6 +25,7 @@ dependencies:
   flutter_tts: ^3.6.3
   dropdown_button2: ^1.9.2
   flutter_riverpod: ^2.2.0
+  image_cropper: ^1.2.1
 
 dev_dependencies:
   flutter_test:

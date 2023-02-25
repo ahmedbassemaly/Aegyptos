@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kemet/constants/constants.dart';
 import 'package:kemet/widgets/drop_down_language.dart';
@@ -40,8 +41,36 @@ class _HomePageState extends ConsumerState<HomePage> {
       selectedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
       _image = File(selectedImage!.path);
+      if (selectedImage != null) {
+        _cropImage(selectedImage);
+      }
     }
     setState(() {});
+  }
+
+  _cropImage(XFile picked) async {
+    File? cropped = await ImageCropper().cropImage(
+      androidUiSettings: AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.deepOrange,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false),
+      sourcePath: picked.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      maxWidth: 800,
+    );
+    if (cropped != null) {
+      setState(() {
+        _image = cropped;
+      });
+    }
   }
 
   late Stream<QuerySnapshot<Map<String, dynamic>>>? semanticsStream;
