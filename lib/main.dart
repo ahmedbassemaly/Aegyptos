@@ -1,9 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:kemet/homepage.dart';
-
+import 'package:kemet/screens/login.dart';
 import 'screens/menu.dart';
+import 'screens/signup.dart';
+import 'screens/user_choice.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
         initialRoute: 'myScreen',
         routes: {
           'myScreen': (context) => const MyScreen(),
+          'loginPage': (context) => const LoginPage(),
+          'signUpPage': (context) => const SignUpPage(),
+          'userChoice': (context) => const UserChoice(),
         });
   }
 }
