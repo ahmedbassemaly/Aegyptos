@@ -58,6 +58,14 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pushNamed(context, 'userChoice');
                   },
                 ),
+                CheckUserAccount(
+                  text: "Continue as a",
+                  text1: 'Guest',
+                  color: const Color(0xffE6E6FA),
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'userChoice');
+                  },
+                ),
               ],
             ),
           ],
