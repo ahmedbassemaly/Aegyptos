@@ -72,10 +72,9 @@ class _CameraScreenState extends State<CameraScreen> {
     final results = await predict.predict(_image);
 
     setState(() {
-      prediction = results['prediction'].toString();
-      translation = results['translation'].toString();
-      gardinerCodePronunciation =
-          results['gardinerCodePronunciation'].toString();
+      prediction = results.prediction.toString();
+      translation = results.translation.toString();
+      gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
     });
   }
 

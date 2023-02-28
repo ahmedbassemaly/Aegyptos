@@ -68,15 +68,13 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
   }
 
-  late Stream<QuerySnapshot<Map<String, dynamic>>>? semanticsStream;
   Future<void> _onPredictPressed() async {
     final results = await predict.predict(_image);
 
     setState(() {
-      prediction = results['prediction'].toString();
-      translation = results['translation'].toString();
-      gardinerCodePronunciation =
-          results['gardinerCodePronunciation'].toString();
+      prediction = results.prediction.toString();
+      translation = results.translation.toString();
+      gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
     });
   }
 
