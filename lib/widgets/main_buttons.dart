@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kemet/constants/constants.dart';
-import '../screens/homepage.dart';
+// import '../screens/homepage.dart';
 
 // ignore: must_be_immutable
 class MainButtons extends StatelessWidget {
   String text;
   IconData icon;
+  final Function()? onPressed;
   MainButtons({
     Key? key,
     required this.text,
-    required this.icon,
+    required this.icon, this.onPressed,
   }) : super(key: key);
 
   @override
@@ -25,11 +26,12 @@ class MainButtons extends StatelessWidget {
         size: 24.0,
         color: Colors.black,
       ),
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      },
+      onPressed: onPressed,
+      // onPressed: () {
+      //   Navigator.of(context).push(
+      //     MaterialPageRoute(builder: (context) => const HomePage()),
+      //   );
+      // },
     );
   }
 }

@@ -1,26 +1,23 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:io';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kemet/constants/constants.dart';
-import 'package:kemet/widgets/drop_down_language.dart';
+import '../constants/constants.dart';
 import '../service/prediction.dart';
+import '../widgets/drop_down_language.dart';
 import '../widgets/translation_text.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+class CameraScreen extends StatefulWidget {
+  const CameraScreen({super.key});
+
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _CameraScreenState extends State<CameraScreen> {
   File? _image;
   String prediction = 'Loading...';
   String translation = 'No translation yet...';
@@ -31,13 +28,15 @@ class _HomePageState extends ConsumerState<HomePage> {
   String? _selectedValue;
 
   Future getImage(bool isCamera) async {
-    XFile? selectedImage;
+    XFile selectedImage;
     if (isCamera) {
-      selectedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+      selectedImage =
+          (await ImagePicker().pickImage(source: ImageSource.camera))!;
+      _image = File(selectedImage.path);
     } else {
       selectedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      _image = File(selectedImage!.path);
+          (await ImagePicker().pickImage(source: ImageSource.gallery))!;
+      _image = File(selectedImage.path);
       _cropImage(selectedImage);
     }
     setState(() {});
@@ -109,27 +108,34 @@ class _HomePageState extends ConsumerState<HomePage> {
                     _image == null
                         ? GestureDetector(
                             onTap: () {
-                              getImage(false);
+                              getImage(true);
                             },
-                            child: Container(
-                              height: 300.0,
-                              width: 300.0,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  color:
-                                      const Color.fromARGB(213, 243, 243, 232)),
-                              child: Center(
-                                child: Icon(
-                                  Icons.cloud_upload_outlined,
-                                  size: 100,
-                                  color: ConstantsColors.secondaryColor,
-                                ),
-                              ),
-                            ),
+                            child: _image == null
+                                ? Container(
+                                    height: 300.0,
+                                    width: 300.0,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                        color: const Color.fromARGB(
+                                            213, 243, 243, 232)),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.camera_alt_outlined,
+                                        size: 100,
+                                        color: ConstantsColors.secondaryColor,
+                                      ),
+                                    ),
+                                  )
+                                : Image.file(
+                                    _image!,
+                                    height: 300.0,
+                                    width: 300.0,
+                                  ),
                           )
                         : GestureDetector(
                             onTap: () {
-                              getImage(false);
+                              getImage(true);
                             },
                             child: Container(
                               height: 300,

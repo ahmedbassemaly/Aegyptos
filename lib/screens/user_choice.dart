@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kemet/screens/camera_screen.dart';
 import '../constants/constants.dart';
 import '../data/repositories/user_provider.dart';
 import '../widgets/main_buttons.dart';
+import 'homepage.dart';
 
 class UserChoice extends StatefulWidget {
   const UserChoice({super.key});
@@ -53,10 +55,20 @@ class _UserChoiceState extends State<UserChoice> {
           MainButtons(
             icon: Icons.cloud_upload_rounded,
             text: 'Upload',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            },
           ),
           MainButtons(
             icon: Icons.camera,
             text: 'Camera',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const CameraScreen()),
+              );
+            },
           ),
           MainButtons(
             icon: Icons.search_rounded,
