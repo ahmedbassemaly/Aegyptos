@@ -1,7 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, use_build_context_synchronously
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../data/user_data.dart';
 import '../widgets/check_user_acc.dart';
 import '../widgets/input_text_form_field.dart';
 import '../widgets/login_signup_button.dart';
@@ -14,6 +17,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final userData = UserData();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,12 +45,14 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 30.0, vertical: 35.0),
                   showText: false,
+                  controller: emailController,
                 ),
                 InputTextFormField(
                   hintText: 'Password',
                   padding: const EdgeInsets.symmetric(
                       horizontal: 30.0, vertical: 5.0),
                   showText: true,
+                  controller: passwordController,
                 ),
                 CheckUserAccount(
                   text: "Don't have an account?",
@@ -54,8 +63,32 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 LoginSignUpButton(
                   text: 'Login',
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'userChoice');
+                  onPressed: () async {
+                    try {
+                      await userData.signInWithEmailAndPassword(
+                          emailController.text, passwordController.text);
+                      Navigator.pushNamed(context, 'userChoice');
+                    } on FirebaseAuthException catch (e) {
+                      // print(e);
+                      if (e.code == 'user-not-found' ||
+                          e.code == 'wrong-password') {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title:
+                                const Text('Incorrect username or password!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    }
                   },
                 ),
                 CheckUserAccount(

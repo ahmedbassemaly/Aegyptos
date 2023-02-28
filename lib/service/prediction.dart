@@ -14,6 +14,8 @@ class Predict {
 
     if (_image != null) {
       // print('Yesssssssssssss');
+      //MIU URL
+      // var url = "http://192.168.43.162:8000/predict";
       //Bassom's URL
       var url = "http://192.168.1.3:8000/predict";
       //Reem's URL
