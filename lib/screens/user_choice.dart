@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../constants/constants.dart';
+import '../data/repositories/user_provider.dart';
 import '../widgets/main_buttons.dart';
 
 class UserChoice extends StatefulWidget {
@@ -20,7 +23,33 @@ class _UserChoiceState extends State<UserChoice> {
       ),
       child: Center(
         child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Consumer(
+            builder: (_, ref, __) {
+              return ref.watch(userDataProvider).when(
+                data: (value) {
+                  return Center(
+                    child: Text(
+                      'Welcome, ${value.get('Name')}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        decoration: TextDecoration.none,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      // textAlign: TextAlign.center
+                    ),
+                  );
+                },
+                error: (Object error, StackTrace err) {
+                  return const Text("Error loading your name");
+                },
+                loading: () {
+                  return const CircularProgressIndicator();
+                },
+              );
+            },
+          ),
           MainButtons(
             icon: Icons.cloud_upload_rounded,
             text: 'Upload',
