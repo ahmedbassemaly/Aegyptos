@@ -1,54 +1,50 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../models/prediction_model.dart';
 
 class Predict {
-  Future<Map<String, String>> predict(File? _image) async {
-    Map<String, String> results = {
-      'prediction': 'Loading...',
-      'translation': 'No translation yet...',
-      'gardinerCode': ''
-    };
+  Future<PredictionModel> predict(File? image) async {
+    final results = PredictionModel(
+      gardinerCodePronunciation: '',
+      prediction: 'Loading...',
+      translation: 'No translation yet...',
+    );
 
-    if (_image != null) {
-      // print('Yesssssssssssss');
-      //MIU URL
-      // var url = "http://192.168.43.162:8000/predict";
-      //Bassom's URL
-      var url = "http://192.168.1.3:8000/predict";
-      //Reem's URL
-      // var url = "http://192.168.0.2:8000/predict";
-      //Shehab's URL
-      // var url = 'http://192.168.1.2:8000/predict';
-      //Basma's URL
-      // var url = "http://192.168.100.8:8000/predict";
-      //DEPLOYMENT SERVER
-      // var url = "https://aegyptosflaskapp-2di2bjgsha-ey.a.run.app/predict";
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-      final headers = {"Content-type": "multipart/form-data"};
-      request.files.add(http.MultipartFile(
-          'image', _image.readAsBytes().asStream(), _image.lengthSync(),
-          filename: _image.path.split('/').last));
-      request.headers.addAll(headers);
-      final response = await request.send();
-      http.Response res = await http.Response.fromStream(response);
+    if (image == null) return results;
 
-      if (response.statusCode == 200) {
-        // print('Yes eshta8al');
-        final resJson = jsonDecode(res.body);
-        results['prediction'] = resJson['prediction'].toString();
-        results['translation'] = resJson['translation'].toString();
-        results['gardinerCodePronunciation'] =
-            resJson['gardinerCodePronunciation'].toString();
-      } else {
-        print("Failed to make prediction ${response.statusCode}");
-        results['prediction'] = 'Failed to predict';
-        results['translation'] = 'Failed to translate';
-        results['gardinerCodePronunciation'] = 'Failed to get gardiner code';
-      }
+    //MIU URL
+    // var url = "http://192.168.43.162:8000/predict";
+    //Bassom's URL
+    // var url = "http://192.168.1.3:8000/predict";
+    //Reem's URL
+    var url = "http://192.168.0.4:8000/predict";
+    //Shehab's URL
+    // var url = 'http://192.168.1.2:8000/predict';
+    //Basma's URL
+    // var url = "http://192.168.100.8:8000/predict";
+    //DEPLOYMENT SERVER
+    // var url = "https://aegyptosflaskapp-2di2bjgsha-ey.a.run.app/predict";
+
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    request.files.add(
+      await http.MultipartFile.fromPath('image', image.path),
+    );
+
+    final response = await http.Response.fromStream(await request.send());
+
+    if (response.statusCode == 200) {
+      final resJson = jsonDecode(response.body);
+      final prediction = PredictionModel.fromJson(resJson);
+      results.gardinerCodePronunciation = prediction.gardinerCodePronunciation;
+      results.prediction = prediction.prediction;
+      results.translation = prediction.translation;
+    } else {
+      print('Failed to make prediction ${response.statusCode}');
+      results.prediction = 'Failed to predict';
+      results.translation = 'Failed to translate';
     }
+
     return results;
   }
 }
