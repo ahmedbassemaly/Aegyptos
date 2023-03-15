@@ -22,8 +22,9 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   File? _image;
-  String prediction = 'Loading...';
-  String translation = 'No translation yet...';
+  // String prediction = 'Loading...';
+  String? prediction;
+  String? translation;
   String gardinerCodePronunciation = '';
   final FlutterTts flutterTts = FlutterTts();
   final predict = Predict();
@@ -44,6 +45,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   _cropImage(XFile picked) async {
+    final results = await predict.predict(_image);
     File? cropped = await ImageCropper().cropImage(
       androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Cropper',
@@ -64,19 +66,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     if (cropped != null) {
       setState(() {
         _image = cropped;
+        prediction = results.prediction.toString();
+        translation = results.translation.toString();
+        gardinerCodePronunciation =
+            results.gardinerCodePronunciation.toString();
       });
     }
   }
 
-  Future<void> _onPredictPressed() async {
-    final results = await predict.predict(_image);
+  // Future<void> _onPredictPressed() async {
+  //   final results = await predict.predict(_image);
 
-    setState(() {
-      prediction = results.prediction.toString();
-      translation = results.translation.toString();
-      gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
-    });
-  }
+  //   setState(() {
+  //     prediction = results.prediction.toString();
+  //     translation = results.translation.toString();
+  //     gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
+  //   });
+  // }
 
   speak(String text, String language) async {
     await flutterTts.setLanguage(language);
@@ -144,13 +150,28 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                     Column(
                       children: [
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TranslationText(
-                                text: 'Translation: ',
-                                fontWeight: FontWeight.bold),
-                            TranslationText(text: prediction),
+                            prediction != null
+                                ? Row(
+                                    children: [
+                                      TranslationText(
+                                        text: 'English: ',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      prediction != null
+                                          ? TranslationText(text: prediction!)
+                                          : const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      // TranslationText(text: prediction!),
+                                    ],
+                                  )
+                                : Container(),
                           ],
                         ),
                         const SizedBox(
@@ -159,11 +180,22 @@ class _HomePageState extends ConsumerState<HomePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TranslationText(
-                              text: 'Arabic: ',
-                              fontWeight: FontWeight.bold,
-                            ),
-                            TranslationText(text: translation),
+                            translation != null
+                                ? Row(
+                                    children: [
+                                      TranslationText(
+                                        text: 'Arabic: ',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      translation != null
+                                          ? TranslationText(text: translation!)
+                                          : const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      // TranslationText(text: translation!),
+                                    ],
+                                  )
+                                : Container(),
                           ],
                         ),
                         const SizedBox(
@@ -171,17 +203,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                       ],
                     ),
-                    ElevatedButton(
-                      onPressed: _onPredictPressed,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: ConstantsColors.secondaryColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0))),
-                      child: const Text(
-                        'Get Translation!',
-                        style: TextStyle(color: Colors.white, fontSize: 17),
-                      ),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: _onPredictPressed,
+                    //   style: ElevatedButton.styleFrom(
+                    //       backgroundColor: ConstantsColors.secondaryColor,
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(10.0))),
+                    //   child: const Text(
+                    //     'Get Translation!',
+                    //     style: TextStyle(color: Colors.white, fontSize: 17),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 20.0,
                     ),
@@ -204,10 +236,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                             onPressed: () {
                               if (_selectedValue == 'English') {
                                 selectedLanguage = 'en-US';
-                                speak(prediction, selectedLanguage!);
+                                speak(prediction!, selectedLanguage!);
                               } else if (_selectedValue == 'Arabic') {
                                 selectedLanguage = 'ar-EG';
-                                speak(translation, selectedLanguage!);
+                                speak(translation!, selectedLanguage!);
                               } else if (_selectedValue == 'Hieroglyphics') {
                                 selectedLanguage = 'ar-EG';
                                 speak(gardinerCodePronunciation,

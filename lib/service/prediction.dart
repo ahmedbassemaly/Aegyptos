@@ -15,6 +15,7 @@ class Predict {
 
     //MIU URL
     // var url = "http://192.168.43.162:8000/predict";
+    // var url = "http://192.168.59.159:8000/predict";
     //Bassom's URL
     var url = "http://192.168.1.3:8000/predict";
     //Reem's URL
@@ -43,7 +44,7 @@ class Predict {
       print('Failed to make prediction ${response.statusCode}');
       results.prediction = 'Failed to predict';
       results.translation = 'Failed to translate';
-      results.gardinerCodePronunciation = 'Failed to pronunce';
+      results.gardinerCodePronunciation = 'لا يوجد صوت';
     }
 
     return results;
