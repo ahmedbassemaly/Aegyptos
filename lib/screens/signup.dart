@@ -33,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
               colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.8), BlendMode.dstATop),
               image: const AssetImage(
-                "assets/Background4.png",
+                "assets/newbackground.jpg",
               ),
             ),
           ),
@@ -41,9 +41,9 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               Column(
                 children: [
-                  Image.asset('assets/logo1.png', width: 350, height: 250),
+                  // Image.asset('assets/logo1.png', width: 350, height: 250),
                   const SizedBox(
-                    height: 25.0,
+                    height: 300.0,
                   ),
                   InputTextFormField(
                     hintText: 'Username',

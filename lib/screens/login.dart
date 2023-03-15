@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.8), BlendMode.dstATop),
             image: const AssetImage(
-              "assets/Background4.png",
+              "assets/newbackground.jpg",
             ),
           ),
         ),
@@ -39,7 +39,11 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Column(
               children: [
-                Image.asset('assets/logo1.png', width: 350, height: 300),
+                // Image.asset('assets/OriginalImage.png',
+                //     width: 350, height: 250),
+                const SizedBox(
+                  height: 300.0,
+                ),
                 InputTextFormField(
                   hintText: 'Email',
                   padding: const EdgeInsets.symmetric(
