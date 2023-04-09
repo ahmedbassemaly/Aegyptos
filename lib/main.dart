@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/navigation.dart';
+import 'screens/bottom_navbar.dart';
 import 'screens/menu.dart';
 import 'screens/signup.dart';
 import 'screens/user_choice.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           'loginPage': (context) => const LoginPage(),
           'signUpPage': (context) => const SignUpPage(),
           'userChoice': (context) => const UserChoice(),
+          'navBar': (context) => const BottomNavBar(),
           'navigation': (context) => const SwipeScreen(),
         });
   }

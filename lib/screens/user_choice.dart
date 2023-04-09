@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:kemet/screens/camera_screen.dart';
-import '../constants/constants.dart';
+// import '../constants/constants.dart';
 import '../data/repositories/user_provider.dart';
-import '../widgets/main_buttons.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+// import '../widgets/main_buttons.dart';
+// import 'package:animated_text_kit/animated_text_kit.dart';
 // import 'homepage.dart';
 
 class UserChoice extends StatefulWidget {
@@ -76,23 +76,23 @@ class _UserChoiceState extends State<UserChoice> {
           //   text: 'Search',
           // ),
 
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: Center(
-              child: DefaultTextStyle(
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontFamily: 'Rubik One',
-                ),
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    TypewriterAnimatedText(
-                        'Keep swiping left for some interesting tidbits about ancient Egypt!'),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   width: MediaQuery.of(context).size.width * 0.7,
+          //   child: Center(
+          //     child: DefaultTextStyle(
+          //       style: const TextStyle(
+          //         fontSize: 30,
+          //         fontFamily: 'Rubik One',
+          //       ),
+          //       child: AnimatedTextKit(
+          //         animatedTexts: [
+          //           TypewriterAnimatedText(
+          //               'Keep swiping left for some interesting tidbits about ancient Egypt!'),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ]),
       ),
     );

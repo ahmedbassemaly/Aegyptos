@@ -10,7 +10,7 @@ class SwipeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        children: <Widget>[
+        children: const <Widget>[
           UserChoice(),
           InteractiveSliverAppBarScreen(
             title: 'Nefertiti',
