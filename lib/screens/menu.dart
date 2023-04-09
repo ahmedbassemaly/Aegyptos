@@ -19,7 +19,7 @@ class _MyScreenState extends State<MyScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/newbackground.jpg"),
+                image: AssetImage("assets/images/newbackground.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

@@ -17,9 +17,9 @@ class Predict {
     // var url = "http://192.168.43.162:8000/predict";
     // var url = "http://192.168.59.159:8000/predict";
     //Bassom's URL
-    var url = "http://192.168.1.3:8000/predict";
+    // var url = "http://192.168.1.3:8000/predict";
     //Reem's URL
-    // var url = "http://192.168.0.4:8000/predict";
+    var url = "http://192.168.0.2:8000/predict";
     //Shehab's URL
     // var url = 'http://192.168.1.2:8000/predict';
     //Basma's URL

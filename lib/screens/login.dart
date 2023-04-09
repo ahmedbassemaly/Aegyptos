@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.8), BlendMode.dstATop),
             image: const AssetImage(
-              "assets/newbackground.jpg",
+              "assets/images/newbackground.jpg",
             ),
           ),
         ),
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                     try {
                       await userData.signInWithEmailAndPassword(
                           emailController.text, passwordController.text);
-                      Navigator.pushNamed(context, 'userChoice');
+                      Navigator.pushNamed(context, 'navigation');
                     } on FirebaseAuthException catch (e) {
                       // print(e);
                       if (e.code == 'user-not-found' ||
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   text1: 'Guest',
                   color: const Color(0xffE6E6FA),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'userChoice');
+                    Navigator.pushNamed(context, 'navigation');
                   },
                 ),
               ],

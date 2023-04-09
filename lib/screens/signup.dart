@@ -33,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
               colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.8), BlendMode.dstATop),
               image: const AssetImage(
-                "assets/newbackground.jpg",
+                "assets/images/newbackground.jpg",
               ),
             ),
           ),
