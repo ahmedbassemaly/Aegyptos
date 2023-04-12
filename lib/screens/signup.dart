@@ -88,7 +88,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             emailController.text,
                             passwordController.text,
                             'user');
-                        Navigator.pushNamed(context, 'userChoice');
+                        Navigator.pushNamed(context, 'loginPage');
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'email-already-in-use') {
                           showDialog(

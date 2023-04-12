@@ -4,7 +4,6 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'camera_screen.dart';
 import 'homepage.dart';
 import 'navigation.dart';
-import 'user_choice.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -29,7 +28,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.cloud_upload_rounded),
         title: 'Upload',
-        activeColorPrimary: const Color.fromARGB(255, 182, 110, 3),
+        // activeColorPrimary: const Color.fromARGB(255, 182, 110, 3),
+        activeColorPrimary: const Color.fromARGB(255, 78, 76, 76),
         inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
@@ -37,27 +37,34 @@ class _BottomNavBarState extends State<BottomNavBar> {
         icon: const Icon(Icons.camera_alt_sharp),
         title: 'Camera',
         activeColorPrimary: const Color.fromARGB(255, 78, 76, 76),
+        // activeColorPrimary: const Color.fromARGB(255, 182, 110, 3),
         inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: 'Home',
-        activeColorPrimary: const Color.fromARGB(255, 30, 141, 232),
+        // activeColorPrimary: const Color.fromARGB(255, 30, 141, 232),
+        activeColorPrimary: const Color.fromARGB(255, 78, 76, 76),
+        // activeColorPrimary: const Color.fromARGB(255, 182, 110, 3),
         inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.search_rounded),
         title: 'Search',
-        activeColorPrimary: const Color.fromARGB(255, 3, 95, 6),
+        // activeColorPrimary: const Color.fromARGB(255, 3, 95, 6),
+        activeColorPrimary: const Color.fromARGB(255, 78, 76, 76),
+        // activeColorPrimary: const Color.fromARGB(255, 182, 110, 3),
         inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.person),
         title: 'Profile',
-        activeColorPrimary: const Color.fromARGB(255, 11, 89, 153),
+        // activeColorPrimary: const Color.fromARGB(255, 11, 89, 153),
+        // activeColorPrimary: const Color.fromARGB(255, 78, 76, 76),
+        activeColorPrimary: const Color.fromARGB(255, 182, 110, 3),
         inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
