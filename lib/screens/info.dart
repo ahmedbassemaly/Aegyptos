@@ -5,14 +5,20 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 class InteractiveSliverAppBarScreen extends StatelessWidget {
   final String title;
   final String modelPath;
-  final String items;
+  final String item1;
+  final String item2;
+  final String item3;
+  final String item4;
   final String path;
 
   const InteractiveSliverAppBarScreen(
       {super.key,
       required this.title,
       required this.modelPath,
-      required this.items,
+      required this.item1,
+      required this.item2,
+      required this.item3,
+      required this.item4,
       required this.path});
 
   @override
@@ -70,17 +76,16 @@ class InteractiveSliverAppBarScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Column(
                     children: [
-                      DropCapText(items),
+                      DropCapText(item1),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(item2),
                       const SizedBox(
                         height: 20,
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        // child: Container(
-                        //   width: 300,
-                        //   height: 200,
-                        //   color: Colors.amberAccent,
-                        // ),
                         child: Image.asset(
                           path,
                           width: 200, // set the desired width
@@ -88,8 +93,17 @@ class InteractiveSliverAppBarScreen extends StatelessWidget {
                           fit: BoxFit.cover, // set the image fit
                         ),
                       ),
-                      DropCapText(items),
-                      DropCapText(items),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(item3),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(item4),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
