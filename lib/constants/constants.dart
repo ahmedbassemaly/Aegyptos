@@ -5,4 +5,6 @@ class ConstantsColors {
   static Color secondaryColor = const Color(0xFF7393b3);
   static Color inactiveNavBarColor = Colors.black;
   static Color activeNavBarColorSecondary = Colors.white;
+  static Color activeNavBarColorPrimary =
+      const Color.fromARGB(255, 182, 110, 3);
 }

@@ -17,7 +17,7 @@ class AncientEgyptInfo extends StatelessWidget {
         style: const TextStyle(
           height: 1.4,
           fontSize: 19,
-          color: Colors.black,
+          color: Colors.white,
           fontWeight: FontWeight.w700,
           fontFamily: 'SortsMillGoudy',
         ),

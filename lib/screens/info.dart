@@ -1,8 +1,6 @@
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:flutter/material.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
-
-import '../constants/constants.dart';
 import 'ancient_egypt_info.dart';
 
 class InteractiveSliverAppBarScreen extends StatelessWidget {
@@ -82,58 +80,63 @@ class InteractiveSliverAppBarScreen extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              const SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: DropCapText(
-                          item1,
-                          style: const TextStyle(
-                            height: 1.4,
-                            fontSize: 19,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'SortsMillGoudy',
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: DropCapText(
+                            item1,
+                            style: const TextStyle(
+                              height: 1.4,
+                              fontSize: 19,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'SortsMillGoudy',
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AncientEgyptInfo(items: item2),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            path,
-                            width: 200,
-                            height: 200,
-                            fit: BoxFit.cover,
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        AncientEgyptInfo(items: item2),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              path,
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AncientEgyptInfo(items: item3),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      AncientEgyptInfo(items: item4),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        AncientEgyptInfo(items: item3),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        AncientEgyptInfo(items: item4),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -144,5 +147,3 @@ class InteractiveSliverAppBarScreen extends StatelessWidget {
     );
   }
 }
-
-
