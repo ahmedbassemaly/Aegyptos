@@ -51,4 +51,13 @@ class UserData {
       'userRole': userRole
     });
   }
+
+  Future editUserDetails(
+      String userName, String userEmail, String userPassword) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'Name': userName,
+      'Email': userEmail,
+      'Password': userPassword,
+    });
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/navigation.dart';
+import 'package:kemet/screens/update_profile.dart';
 import 'screens/bottom_navbar.dart';
 import 'screens/menu.dart';
 import 'screens/signup.dart';
@@ -14,6 +15,8 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         initialRoute: 'myScreen',
         routes: {
@@ -30,6 +34,7 @@ class MyApp extends StatelessWidget {
           'userChoice': (context) => const UserChoice(),
           'navBar': (context) => const BottomNavBar(),
           'navigation': (context) => const SwipeScreen(),
+          'editProfile': (context) => const UpdateProfileScreen(),
         });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kemet/constants/constants.dart';
+import 'package:kemet/screens/profile.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'camera_screen.dart';
 import 'homepage.dart';
@@ -20,7 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     const CameraScreen(),
     const SwipeScreen(),
     Container(),
-    Container(),
+    const ProfileScreen(),
   ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
