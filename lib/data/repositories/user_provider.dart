@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../user_data.dart';
 
-Stream userData = UserData().getUserDetails();
-final userDataProviderRepository = StateProvider<Stream>((ref) => userData);
-
+final userDataProviderRepository =
+    StateProvider.autoDispose<Stream>((ref) => UserData().getUserDetails());
 final userDataProvider =
-    StreamProvider(((ref) => ref.watch(userDataProviderRepository)));
+    StreamProvider.autoDispose((ref) => ref.watch(userDataProviderRepository));
+

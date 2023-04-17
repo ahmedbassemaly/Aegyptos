@@ -1,17 +1,12 @@
 import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kemet/main.dart';
-import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/update_profile.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-// import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
 import '../data/repositories/user_provider.dart';
-import '../widgets/input_text_form_field.dart';
 import '../widgets/profile_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -119,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
                           onPressed: () {
                             PersistentNavBarNavigator.pushNewScreen(
                               context,
-                              screen: UpdateProfileScreen(),
+                              screen: const UpdateProfileScreen(),
                               withNavBar:
                                   true, // OPTIONAL VALUE. True by default.
                               pageTransitionAnimation:
@@ -128,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  Color.fromARGB(255, 238, 191, 138),
+                                  const Color.fromARGB(255, 238, 191, 138),
                               side: BorderSide.none,
                               shape: const StadiumBorder()),
                           child: const Text("Edit Profile",
@@ -164,8 +159,9 @@ class ProfileScreen extends StatelessWidget {
                           textColor: Colors.black,
                           endIcon: false,
                           onPress: () async {
-                            // final GoogleSignIn googleSignIn = GoogleSignIn();
+                            final GoogleSignIn googleSignIn = GoogleSignIn();
                             await FirebaseAuth.instance.signOut();
+                            await googleSignIn.signOut();
                             navigatorKey.currentState!
                                 .pushReplacementNamed('loginPage');
                             // await googleSignIn.signOut();

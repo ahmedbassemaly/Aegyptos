@@ -2,8 +2,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-// import '../constants/constants.dart';
 import '../data/user_data.dart';
 import '../widgets/check_user_acc.dart';
 import '../widgets/input_text_form_field.dart';
@@ -41,9 +39,8 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               Column(
                 children: [
-                  // Image.asset('assets/logo1.png', width: 350, height: 250),
-                  const SizedBox(
-                    height: 300.0,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
                   ),
                   InputTextFormField(
                     hintText: 'Username',
@@ -70,20 +67,20 @@ class _SignUpPageState extends State<SignUpPage> {
                     text: "Already have an account?",
                     text1: 'Login',
                     onPressed: () {
-                      //goes to the Login page
                       Navigator.pushNamed(context, 'loginPage');
                     },
                   ),
                   LoginSignUpButton(
                     text: 'Sign Up',
                     onPressed: () async {
-                      //Go back to log in
-                      // Navigator.pushNamed(context, 'myScreen');
+                      //Go back to logIn
                       try {
                         await userData.createUserWithEmailAndPassword(
                             emailController.text, passwordController.text);
+                        final createUser = FirebaseAuth.instance.currentUser!;
+                        String createUserId = createUser.uid;
                         userData.addUserDetails(
-                            userId,
+                            createUserId,
                             usernameController.text,
                             emailController.text,
                             passwordController.text,

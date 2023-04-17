@@ -23,13 +23,14 @@ class CheckUserAccount extends StatelessWidget {
       children: [
         Text(
           text,
-          style: const TextStyle(fontSize: 17),
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         ),
         TextButton(
           onPressed: onPressed,
           child: Text(
             text1,
-            style:  TextStyle(fontSize: 17, color: color),
+            style: TextStyle(
+                fontSize: 17, color: color, fontWeight: FontWeight.bold),
           ),
         ),
       ],

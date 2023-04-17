@@ -24,6 +24,8 @@ class UserData {
         .user;
     if (user != null) {
       userId = user.uid;
+    } else {
+      print("USER IS NULL");
     }
   }
 
@@ -34,9 +36,6 @@ class UserData {
       password: password.trim(),
     ))
         .user;
-
-    addUserDetails(
-        newUser!.uid, 'usernameHere', email.trim(), password.trim(), 'user');
   }
 
   /// **************************ADD USER DETAILS*********************************/

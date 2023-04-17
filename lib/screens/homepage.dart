@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:io';
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -22,7 +21,6 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   File? _image;
-  // String prediction = 'Loading...';
   String? prediction;
   String? translation;
   String gardinerCodePronunciation = '';
@@ -39,13 +37,12 @@ class _HomePageState extends ConsumerState<HomePage> {
       selectedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
       _image = File(selectedImage!.path);
-      _cropImage(selectedImage);
+      _cropImage(_image!);
     }
     setState(() {});
   }
 
-  _cropImage(XFile picked) async {
-    final results = await predict.predict(_image);
+  _cropImage(File picked) async {
     File? cropped = await ImageCropper().cropImage(
       androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Cropper',
@@ -63,26 +60,15 @@ class _HomePageState extends ConsumerState<HomePage> {
       ],
       maxWidth: 800,
     );
-    if (cropped != null) {
-      setState(() {
-        _image = cropped;
-        prediction = results.prediction.toString();
-        translation = results.translation.toString();
-        gardinerCodePronunciation =
-            results.gardinerCodePronunciation.toString();
-      });
-    }
+    _image = cropped;
+    final results = await predict.predict(_image);
+    setState(() {
+      _image = cropped;
+      prediction = results.prediction.toString();
+      translation = results.translation.toString();
+      gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
+    });
   }
-
-  // Future<void> _onPredictPressed() async {
-  //   final results = await predict.predict(_image);
-
-  //   setState(() {
-  //     prediction = results.prediction.toString();
-  //     translation = results.translation.toString();
-  //     gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
-  //   });
-  // }
 
   speak(String text, String language) async {
     await flutterTts.setLanguage(language);
@@ -158,24 +144,24 @@ class _HomePageState extends ConsumerState<HomePage> {
                           children: [
                             prediction != null
                                 ? Row(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       TranslationText(
                                         text: 'English: ',
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      prediction != null
-                                          ? TranslationText(text: prediction!)
-                                          : const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                      // TranslationText(text: prediction!),
+                                      // prediction != null
+                                      TranslationText(text: prediction!),
+                                      // const Center(
+                                      //     child: CircularProgressIndicator()),
                                     ],
                                   )
                                 : Container(),
                           ],
                         ),
-                        const SizedBox(
-                          height: 10.0,
+                        SizedBox(
+                          // height: 10,
+                          height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -192,30 +178,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           : const Center(
                                               child:
                                                   CircularProgressIndicator()),
-                                      // TranslationText(text: translation!),
                                     ],
                                   )
                                 : Container(),
                           ],
                         ),
-                        const SizedBox(
-                          height: 30.0,
+                        SizedBox(
+                          // height: 30.0,
+                          height: MediaQuery.of(context).size.height * 0.06,
                         ),
                       ],
-                    ),
-                    // ElevatedButton(
-                    //   onPressed: _onPredictPressed,
-                    //   style: ElevatedButton.styleFrom(
-                    //       backgroundColor: ConstantsColors.secondaryColor,
-                    //       shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(10.0))),
-                    //   child: const Text(
-                    //     'Get Translation!',
-                    //     style: TextStyle(color: Colors.white, fontSize: 17),
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 20.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 55),

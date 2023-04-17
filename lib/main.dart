@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/navigation.dart';
 import 'package:kemet/screens/update_profile.dart';
@@ -8,6 +7,7 @@ import 'screens/bottom_navbar.dart';
 import 'screens/menu.dart';
 import 'screens/signup.dart';
 import 'screens/user_choice.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         initialRoute: 'myScreen',
         routes: {
           'myScreen': (context) => const MyScreen(),
-          'loginPage': (context) => const LoginPage(),
+          'loginPage': (context) => const LoginPageWrapper(),
           'signUpPage': (context) => const SignUpPage(),
           'userChoice': (context) => const UserChoice(),
           'navBar': (context) => const BottomNavBar(),
