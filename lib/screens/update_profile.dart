@@ -1,22 +1,38 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kemet/data/repositories/user_provider.dart';
 import 'package:kemet/data/user_data.dart';
 
+import '../main.dart';
 import '../widgets/input_text_form_field.dart';
 
-class UpdateProfileScreen extends StatefulWidget {
+class UpdateProfileScreen extends ConsumerStatefulWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<UpdateProfileScreen> createState() => _UpdateProfileScreen();
+  ConsumerState<UpdateProfileScreen> createState() => _UpdateProfileScreen();
 }
 
-class _UpdateProfileScreen extends State<UpdateProfileScreen> {
+class _UpdateProfileScreen extends ConsumerState<UpdateProfileScreen> {
   UserData user = UserData();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController phoneController;
+  @override
+  void initState() {
+    super.initState();
+    final userValues = ref.read(userDataProvider).value;
+    nameController = TextEditingController(text: userValues.get('Name'));
+    emailController = TextEditingController(text: userValues.get('Email'));
+    passwordController =
+        TextEditingController(text: userValues.get('Password'));
+    phoneController = TextEditingController(text: "12345");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +96,7 @@ class _UpdateProfileScreen extends State<UpdateProfileScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 30.0, vertical: 25.0),
                                   showText: false,
-                                  controller: null,
+                                  controller: phoneController,
                                 ),
                                 InputTextFormField(
                                   hintText: 'Password',
@@ -145,7 +161,32 @@ class _UpdateProfileScreen extends State<UpdateProfileScreen> {
                                       ),
                                     ),
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        await user.deleteAccount();
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title:
+                                                const Text('Account Deleted'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  final GoogleSignIn
+                                                      googleSignIn =
+                                                      GoogleSignIn();
+                                                  await FirebaseAuth.instance
+                                                      .signOut();
+                                                  await googleSignIn.signOut();
+                                                  navigatorKey.currentState!
+                                                      .pushReplacementNamed(
+                                                          'loginPage');
+                                                },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
                                               Colors.redAccent.withOpacity(0.1),

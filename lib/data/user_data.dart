@@ -59,4 +59,8 @@ class UserData {
       'Password': userPassword,
     });
   }
+
+  Future deleteAccount() async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+  }
 }
