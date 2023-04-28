@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constants/constants.dart';
+import '../data/history_data.dart';
+import '../data/user_data.dart';
 import '../service/prediction.dart';
 import '../widgets/drop_down_language.dart';
 import '../widgets/translation_text.dart';
@@ -26,25 +31,24 @@ class _CameraScreenState extends State<CameraScreen> {
   final predict = Predict();
   String? selectedLanguage;
   String? _selectedValue;
+  String downloadURL = '';
+  XFile? selectedImage;
+  final history = History();
 
   Future getImage(bool isCamera) async {
-    XFile selectedImage;
+    XFile? selectedImage;
     if (isCamera) {
-      selectedImage =
-          (await ImagePicker().pickImage(source: ImageSource.camera))!;
-      _image = File(selectedImage.path);
-      _cropImage(selectedImage);
+      selectedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+      _image = File(selectedImage!.path);
+      _cropImage(_image!);
     } else {
       selectedImage =
-          (await ImagePicker().pickImage(source: ImageSource.gallery))!;
-      _image = File(selectedImage.path);
-      // _cropImage(selectedImage);
+          await ImagePicker().pickImage(source: ImageSource.gallery);
     }
     setState(() {});
   }
 
-  _cropImage(XFile picked) async {
-    final results = await predict.predict(_image);
+  _cropImage(File picked) async {
     File? cropped = await ImageCropper().cropImage(
       androidUiSettings: const AndroidUiSettings(
           toolbarTitle: 'Cropper',
@@ -62,32 +66,37 @@ class _CameraScreenState extends State<CameraScreen> {
       ],
       maxWidth: 800,
     );
-    if (cropped != null) {
-      setState(() {
-        _image = cropped;
-        prediction = results.prediction.toString();
-        translation = results.translation.toString();
-        gardinerCodePronunciation =
-            results.gardinerCodePronunciation.toString();
-      });
-    }
+    _image = cropped;
+    final results = await predict.predict(_image);
+    setState(() {
+      _image = cropped;
+      prediction = results.prediction.toString();
+      translation = results.translation.toString();
+      gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
+    });
   }
-
-  // late Stream<QuerySnapshot<Map<String, dynamic>>>? semanticsStream;
-  // Future<void> _onPredictPressed() async {
-  //   final results = await predict.predict(_image);
-
-  //   setState(() {
-  //     prediction = results.prediction.toString();
-  //     translation = results.translation.toString();
-  //     gardinerCodePronunciation = results.gardinerCodePronunciation.toString();
-  //   });
-  // }
 
   speak(String text, String language) async {
     await flutterTts.setLanguage(language);
     await flutterTts.setPitch(1);
     await flutterTts.speak(text);
+  }
+
+  Future saveImage() async {
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImage = referenceRoot.child('images');
+    String fileName =
+        '${DateTime.now().millisecondsSinceEpoch}-${Random().nextInt(100000)}.jpg';
+    Reference referenceImageToUpload = referenceDirImage.child(fileName);
+    try {
+      await referenceImageToUpload.putFile(File(_image!.path));
+      downloadURL = await referenceImageToUpload.getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _image = File(_image!.path);
+    });
   }
 
   @override
@@ -203,11 +212,6 @@ class _CameraScreenState extends State<CameraScreen> {
                                     ],
                                   )
                                 : Container(),
-                            // TranslationText(
-                            //   text: 'Arabic: ',
-                            //   fontWeight: FontWeight.bold,
-                            // ),
-                            // TranslationText(text: translation),
                           ],
                         ),
                         const SizedBox(
@@ -215,17 +219,6 @@ class _CameraScreenState extends State<CameraScreen> {
                         ),
                       ],
                     ),
-                    // ElevatedButton(
-                    //   onPressed: _onPredictPressed,
-                    //   style: ElevatedButton.styleFrom(
-                    //       backgroundColor: ConstantsColors.secondaryColor,
-                    //       shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(10.0))),
-                    //   child: const Text(
-                    //     'Get Translation!',
-                    //     style: TextStyle(color: Colors.white, fontSize: 17),
-                    //   ),
-                    // ),
                     const SizedBox(
                       height: 20.0,
                     ),
@@ -260,6 +253,74 @@ class _CameraScreenState extends State<CameraScreen> {
                             },
                           ),
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.38,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await saveImage();
+                            history.addHistory(
+                              userId,
+                              downloadURL,
+                              prediction!,
+                              translation!,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Row(
+                                  children: [
+                                    const Icon(
+                                        Icons.check_circle_outline_rounded,
+                                        color: Colors.green),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.02),
+                                    const Text('Saved successfully!'),
+                                  ],
+                                ),
+                                duration: const Duration(milliseconds: 3000),
+                                width: MediaQuery.of(context).size.width * 0.65,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                  vertical:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 218, 211, 211)
+                                      .withOpacity(0.1),
+                              side: BorderSide.none,
+                              shape: const StadiumBorder()),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.save, color: Colors.black, size: 22),
+                              SizedBox(width: 8),
+                              Text(
+                                'Save',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],

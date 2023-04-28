@@ -1,25 +1,29 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, use_build_context_synchronously
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kemet/constants/constants.dart';
 import 'package:kemet/widgets/drop_down_language.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../data/history_data.dart';
+import '../data/user_data.dart';
 import '../service/prediction.dart';
 import '../widgets/translation_text.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
   }) : super(key: key);
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends State<HomePage> {
   File? _image;
   String? prediction;
   String? translation;
@@ -28,6 +32,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   final predict = Predict();
   String? selectedLanguage;
   String? _selectedValue;
+  String downloadURL = '';
+  XFile? selectedImage;
+  final history = History();
 
   Future getImage(bool isCamera) async {
     XFile? selectedImage;
@@ -76,6 +83,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     await flutterTts.speak(text);
   }
 
+  Future saveImage() async {
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImage = referenceRoot.child('images');
+    String fileName =
+        '${DateTime.now().millisecondsSinceEpoch}-${Random().nextInt(100000)}.jpg';
+    Reference referenceImageToUpload = referenceDirImage.child(fileName);
+    try {
+      await referenceImageToUpload.putFile(File(_image!.path));
+      downloadURL = await referenceImageToUpload.getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _image = File(_image!.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,8 +126,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                               getImage(false);
                             },
                             child: Container(
-                              height: 300.0,
-                              width: 300.0,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.385,
+                              width: MediaQuery.of(context).size.width * 0.76,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15.0),
                                   color:
@@ -122,8 +147,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                               getImage(false);
                             },
                             child: Container(
-                              height: 300,
-                              width: 300,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.385,
+                              width: MediaQuery.of(context).size.width * 0.76,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: FileImage(_image!),
@@ -131,13 +157,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   borderRadius: BorderRadius.circular(15.0)),
                             ),
                           ),
-                    const SizedBox(
-                      height: 20.0,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.05,
                     ),
                     Column(
                       children: [
-                        const SizedBox(
-                          height: 20.0,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.05,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -156,20 +182,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           ),
                                         ),
                                         Flexible(
-                                            child: Stack(children: [
-                                          TranslationText(text: prediction!),
-                                          if (_image != null &&
-                                              prediction == null)
-                                            const CircularProgressIndicator(
-                                              backgroundColor: Colors.grey,
-                                            ),
-                                        ])),
+                                          child: Stack(children: [
+                                            TranslationText(text: prediction!),
+                                            if (_image != null &&
+                                                prediction == null)
+                                              const CircularProgressIndicator(
+                                                backgroundColor: Colors.grey,
+                                              ),
+                                          ]),
+                                        ),
                                       ],
                                     ),
                                   )
-                                // : const CircularProgressIndicator(
-                                //     backgroundColor: Colors.grey,
-                                //   ),
                                 : Container(),
                           ],
                         ),
@@ -213,7 +237,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 55),
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.14,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -243,6 +269,74 @@ class _HomePageState extends ConsumerState<HomePage> {
                             },
                           ),
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.38,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await saveImage();
+                            history.addHistory(
+                              userId,
+                              downloadURL,
+                              prediction!,
+                              translation!,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Row(
+                                  children: [
+                                    const Icon(
+                                        Icons.check_circle_outline_rounded,
+                                        color: Colors.green),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.02),
+                                    const Text('Saved successfully!'),
+                                  ],
+                                ),
+                                duration: const Duration(milliseconds: 3000),
+                                width: MediaQuery.of(context).size.width * 0.65,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                  vertical:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 218, 211, 211)
+                                      .withOpacity(0.1),
+                              side: BorderSide.none,
+                              shape: const StadiumBorder()),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.save, color: Colors.black, size: 22),
+                              SizedBox(width: 8),
+                              Text(
+                                'Save',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],

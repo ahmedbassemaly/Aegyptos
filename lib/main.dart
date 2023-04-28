@@ -4,6 +4,7 @@ import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/navigation.dart';
 import 'package:kemet/screens/update_profile.dart';
 import 'screens/bottom_navbar.dart';
+import 'screens/history.dart';
 import 'screens/menu.dart';
 import 'screens/signup.dart';
 import 'screens/user_choice.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           'navBar': (context) => const BottomNavBar(),
           'navigation': (context) => const SwipeScreen(),
           'editProfile': (context) => const UpdateProfileScreen(),
+          'history': (context) => const History(),
         });
   }
 }

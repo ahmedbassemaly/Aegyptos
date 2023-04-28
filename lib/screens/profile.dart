@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kemet/main.dart';
+import 'package:kemet/screens/history.dart';
 import 'package:kemet/screens/update_profile.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../data/repositories/user_provider.dart';
@@ -115,8 +116,7 @@ class ProfileScreen extends StatelessWidget {
                             PersistentNavBarNavigator.pushNewScreen(
                               context,
                               screen: const UpdateProfileScreen(),
-                              withNavBar:
-                                  true, // OPTIONAL VALUE. True by default.
+                              withNavBar: true,
                               pageTransitionAnimation:
                                   PageTransitionAnimation.cupertino,
                             );
@@ -132,9 +132,10 @@ class ProfileScreen extends StatelessWidget {
                           // style: TextStyle(color: tDarkColor)),
                         ),
                       ),
-                      const SizedBox(height: 30),
 
-                      const SizedBox(height: 60),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.12,
+                      ),
 
                       /// -- MENU
                       ProfileMenuWidget(
@@ -143,10 +144,19 @@ class ProfileScreen extends StatelessWidget {
                           IconColor: Colors.black,
                           onPress: () {}),
                       ProfileMenuWidget(
-                          title: "Settings",
-                          icon: Icons.settings,
+                          title: "History",
+                          icon: Icons.history,
                           IconColor: Colors.black,
-                          onPress: () {}),
+                          onPress: () {
+                            //Navigate to the saved page
+                            PersistentNavBarNavigator.pushNewScreen(
+                              context,
+                              screen: const History(),
+                              withNavBar: false,
+                              pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino,
+                            );
+                          }),
                       ProfileMenuWidget(
                           title: "Contact Information",
                           icon: Icons.phone,
