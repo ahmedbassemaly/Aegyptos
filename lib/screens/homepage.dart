@@ -143,19 +143,33 @@ class _HomePageState extends ConsumerState<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             prediction != null
-                                ? Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TranslationText(
-                                        text: 'English: ',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      // prediction != null
-                                      TranslationText(text: prediction!),
-                                      // const Center(
-                                      //     child: CircularProgressIndicator()),
-                                    ],
+                                ? Flexible(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 35, right: 10),
+                                          child: TranslationText(
+                                            text: 'English: ',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Flexible(
+                                            child: Stack(children: [
+                                          TranslationText(text: prediction!),
+                                          if (_image != null &&
+                                              prediction == null)
+                                            const CircularProgressIndicator(
+                                              backgroundColor: Colors.grey,
+                                            ),
+                                        ])),
+                                      ],
+                                    ),
                                   )
+                                // : const CircularProgressIndicator(
+                                //     backgroundColor: Colors.grey,
+                                //   ),
                                 : Container(),
                           ],
                         ),
@@ -167,18 +181,27 @@ class _HomePageState extends ConsumerState<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             translation != null
-                                ? Row(
-                                    children: [
-                                      TranslationText(
-                                        text: 'Arabic: ',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      translation != null
-                                          ? TranslationText(text: translation!)
-                                          : const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                    ],
+                                ? Flexible(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 35, right: 10),
+                                          child: TranslationText(
+                                            text: 'Arabic: ',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        translation != null
+                                            ? Flexible(
+                                                child: TranslationText(
+                                                    text: translation!))
+                                            : const Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                      ],
+                                    ),
                                   )
                                 : Container(),
                           ],
