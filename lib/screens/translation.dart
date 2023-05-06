@@ -1,5 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable, use_build_context_synchronously
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
@@ -8,21 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import '../constants/constants.dart';
+import 'package:kemet/widgets/drop_down_language.dart';
 import '../data/history_data.dart';
 import '../data/user_data.dart';
 import '../service/prediction.dart';
-import '../widgets/drop_down_language.dart';
 import '../widgets/translation_text.dart';
+import '../widgets/translation.dart';
 
-class CameraScreen extends StatefulWidget {
-  const CameraScreen({super.key});
+class Translation extends StatefulWidget {
+  final bool isCamera;
 
+  const Translation({Key? key, required this.isCamera}) : super(key: key);
   @override
-  State<CameraScreen> createState() => _CameraScreenState();
+  State<Translation> createState() => _TranslationState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _TranslationState extends State<Translation> {
   File? _image;
   String? prediction;
   String? translation;
@@ -35,15 +35,15 @@ class _CameraScreenState extends State<CameraScreen> {
   XFile? selectedImage;
   final history = History();
 
-  Future getImage(bool isCamera) async {
+  Future getImage(isCamera) async {
     XFile? selectedImage;
-    if (isCamera) {
+    if (widget.isCamera == true) {
       selectedImage = await ImagePicker().pickImage(source: ImageSource.camera);
-      _image = File(selectedImage!.path);
-      _cropImage(_image!);
-    } else {
+    } else if (widget.isCamera == false) {
       selectedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
+      _image = File(selectedImage!.path);
+      _cropImage(_image!);
     }
     setState(() {});
   }
@@ -110,6 +110,7 @@ class _CameraScreenState extends State<CameraScreen> {
           ),
         ),
         child: ClipRRect(
+          // make sure we apply clip it properly
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
             child: Container(
@@ -121,38 +122,29 @@ class _CameraScreenState extends State<CameraScreen> {
                     _image == null
                         ? GestureDetector(
                             onTap: () {
-                              getImage(true);
+                              getImage(false);
                             },
-                            child: _image == null
-                                ? Container(
-                                    height: 300.0,
-                                    width: 300.0,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        color: const Color.fromARGB(
-                                            213, 243, 243, 232)),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        size: 100,
-                                        color: ConstantsColors.secondaryColor,
-                                      ),
-                                    ),
-                                  )
-                                : Image.file(
-                                    _image!,
-                                    height: 300.0,
-                                    width: 300.0,
-                                  ),
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.385,
+                              width: MediaQuery.of(context).size.width * 0.76,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  color:
+                                      const Color.fromARGB(213, 243, 243, 232)),
+                              child: widget.isCamera
+                                  ? buildCameraUI()
+                                  : buildUploadUI(),
+                            ),
                           )
                         : GestureDetector(
                             onTap: () {
-                              getImage(true);
+                              getImage(false);
                             },
                             child: Container(
-                              height: 300,
-                              width: 300,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.385,
+                              width: MediaQuery.of(context).size.width * 0.76,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       image: FileImage(_image!),
@@ -160,70 +152,89 @@ class _CameraScreenState extends State<CameraScreen> {
                                   borderRadius: BorderRadius.circular(15.0)),
                             ),
                           ),
-                    const SizedBox(
-                      height: 20.0,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.05,
                     ),
                     Column(
                       children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.05,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             prediction != null
-                                ? Row(
-                                    children: [
-                                      TranslationText(
-                                        text: 'English: ',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      prediction != null
-                                          ? TranslationText(text: prediction!)
-                                          : const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                      // TranslationText(text: prediction!),
-                                    ],
+                                ? Flexible(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 35, right: 10),
+                                          child: TranslationText(
+                                            text: 'English: ',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Stack(children: [
+                                            TranslationText(text: prediction!),
+                                            if (_image != null &&
+                                                prediction == null)
+                                              const CircularProgressIndicator(
+                                                backgroundColor: Colors.grey,
+                                              ),
+                                          ]),
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 : Container(),
-                            // TranslationText(
-                            //     text: 'Translation: ',
-                            //     fontWeight: FontWeight.bold),
-                            // TranslationText(text: prediction),
                           ],
                         ),
-                        const SizedBox(
-                          height: 10.0,
+                        SizedBox(
+                          // height: 10,
+                          height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             translation != null
-                                ? Row(
-                                    children: [
-                                      TranslationText(
-                                        text: 'Arabic: ',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      translation != null
-                                          ? TranslationText(text: translation!)
-                                          : const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                      // TranslationText(text: translation!),
-                                    ],
+                                ? Flexible(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 35, right: 10),
+                                          child: TranslationText(
+                                            text: 'Arabic: ',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        translation != null
+                                            ? Flexible(
+                                                child: TranslationText(
+                                                    text: translation!))
+                                            : const Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                      ],
+                                    ),
                                   )
                                 : Container(),
                           ],
                         ),
-                        const SizedBox(
-                          height: 30.0,
+                        SizedBox(
+                          // height: 30.0,
+                          height: MediaQuery.of(context).size.height * 0.06,
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 55),
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.14,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

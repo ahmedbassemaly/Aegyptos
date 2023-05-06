@@ -7,7 +7,7 @@ import 'screens/bottom_navbar.dart';
 import 'screens/history.dart';
 import 'screens/menu.dart';
 import 'screens/signup.dart';
-import 'screens/user_choice.dart';
+import 'screens/homepage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           'myScreen': (context) => const MyScreen(),
           'loginPage': (context) => const LoginPageWrapper(),
           'signUpPage': (context) => const SignUpPage(),
-          'userChoice': (context) => const UserChoice(),
+          'userChoice': (context) => const HomePage(),
           'navBar': (context) => const BottomNavBar(),
           'navigation': (context) => const SwipeScreen(),
           'editProfile': (context) => const UpdateProfileScreen(),

@@ -1,9 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kemet/screens/user_choice.dart';
+import 'package:kemet/screens/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'info.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -58,7 +59,7 @@ class _SwipeScreenState extends State<SwipeScreen> {
             future: Future.wait([futureDocs1, futureDocs2, futureDocs3]),
             builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -72,7 +73,7 @@ class _SwipeScreenState extends State<SwipeScreen> {
               List<DocumentSnapshot> docs3 = snapshot.data![2];
               return PageView(
                 children: <Widget>[
-                  UserChoice(),
+                  const HomePage(),
                   InteractiveSliverAppBarScreen(
                     title: 'Nefertiti',
                     modelPath: 'assets/models/nefertiti.glb',

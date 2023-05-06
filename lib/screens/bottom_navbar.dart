@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kemet/constants/constants.dart';
 import 'package:kemet/screens/profile.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'camera_screen.dart';
-import 'homepage.dart';
+import 'translation.dart';
 import 'navigation.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -14,11 +13,16 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+  bool isCamera = false;
   PersistentTabController? _controller;
 
   final List<Widget> _screens = [
-    const HomePage(),
-    const CameraScreen(),
+    const Translation(
+      isCamera: false,
+    ),
+    const Translation(
+      isCamera: true,
+    ),
     const SwipeScreen(),
     Container(),
     const ProfileScreen(),
@@ -84,9 +88,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
       stateManagement: true,
       navBarStyle: NavBarStyle.style7,
       navBarHeight: 65,
-      // onItemSelected: (index) {
-      //   setState(() {});
-      // },
     );
   }
 }
