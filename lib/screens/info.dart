@@ -118,22 +118,24 @@ class InteractiveSliverAppBarScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             child: Image.asset(
                               path,
-                              width: 200,
-                              height: 200,
+                              // width: 200,
+                              // height: 200,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              height: MediaQuery.of(context).size.height * 0.3,
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         AncientEgyptInfo(items: item3),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         AncientEgyptInfo(items: item4),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                       ],
                     ),

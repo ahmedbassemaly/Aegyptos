@@ -88,7 +88,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       navBarStyle: NavBarStyle.style7,
-      navBarHeight: 65,
+      // navBarHeight: 65,
+      navBarHeight: MediaQuery.of(context).size.height * 0.07,
     );
   }
 }

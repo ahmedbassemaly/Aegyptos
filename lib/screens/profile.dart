@@ -56,8 +56,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Stack(
                             children: [
                               SizedBox(
-                                width: 120,
-                                height: 120,
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: const Image(
@@ -68,8 +69,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 bottom: 0,
                                 right: 0,
                                 child: Container(
-                                  width: 35,
-                                  height: 35,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.08,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
                                       color: Colors.white),
@@ -123,11 +126,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             );
                           }),
-                          const SizedBox(height: 23),
+                          SizedBox(
+                            // height: 23
+                            height: MediaQuery.of(context).size.height * 0.03,
+                          ),
 
                           /// -- BUTTON
                           SizedBox(
-                            width: 150,
+                            width: MediaQuery.of(context).size.width * 0.4,
                             child: ElevatedButton(
                               onPressed: () {
                                 PersistentNavBarNavigator.pushNewScreen(

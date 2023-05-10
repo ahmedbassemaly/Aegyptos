@@ -103,7 +103,11 @@ class _HistoryState extends State<History> {
                                                     ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              15),
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.03),
                                                       child: SizedBox(
                                                         width: MediaQuery.of(
                                                                     context)
