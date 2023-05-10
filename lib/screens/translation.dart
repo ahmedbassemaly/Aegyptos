@@ -25,6 +25,7 @@ class Translation extends StatefulWidget {
 }
 
 class _TranslationState extends State<Translation> {
+  bool isFirstTime = true;
   File? _image;
   String? prediction;
   String? translation;
@@ -49,7 +50,11 @@ class _TranslationState extends State<Translation> {
       _image = File(selectedImage!.path);
       _cropImage(_image!);
     }
-    setState(() {});
+    setState(() {
+      prediction = null;
+      translation = null;
+      isFirstTime = false;
+    });
   }
 
   _cropImage(File picked) async {
@@ -191,17 +196,18 @@ class _TranslationState extends State<Translation> {
                                         Flexible(
                                           child: Stack(children: [
                                             TranslationText(text: prediction!),
-                                            if (_image != null &&
-                                                prediction == null)
-                                              const CircularProgressIndicator(
-                                                backgroundColor: Colors.grey,
-                                              ),
                                           ]),
                                         ),
                                       ],
                                     ),
                                   )
-                                : Container(),
+                                : isFirstTime
+                                    ? Center(
+                                        child: Container(),
+                                      )
+                                    : const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
                           ],
                         ),
                         SizedBox(
