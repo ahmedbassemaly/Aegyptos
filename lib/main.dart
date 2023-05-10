@@ -6,6 +6,7 @@ import 'package:kemet/screens/update_profile.dart';
 import 'screens/bottom_navbar.dart';
 import 'screens/history.dart';
 import 'screens/menu.dart';
+import 'screens/search.dart';
 import 'screens/signup.dart';
 import 'screens/homepage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
