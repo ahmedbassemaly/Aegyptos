@@ -29,7 +29,7 @@ class UserData {
     }
   }
 
-  /// **************************SIGN UP******************************************/
+  /// **************************SIGN UP****************************************/
   Future createUserWithEmailAndPassword(String email, String password) async {
     User? newUser = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email.trim(),
@@ -38,10 +38,10 @@ class UserData {
         .user;
   }
 
-  /// **************************ADD USER DETAILS*********************************/
+  /// **************************ADD USER DETAILS********************************/
   Future addUserDetails(String userId, String userName, String userEmail,
       String userPassword, String userRole) async {
-    //2. ADD USER DOC IN "USERS" COLLECTION AND UPDATE THE USER ID***************/
+    //2. ADD USER DOC IN "USERS" COLLECTION AND UPDATE THE USER ID*******/
     await FirebaseFirestore.instance.collection('users').doc(userId).set({
       'id': userId,
       'Name': userName,
@@ -51,6 +51,7 @@ class UserData {
     });
   }
 
+  /// **************************EDIT USER DETAILS******************************/
   Future editUserDetails(
       String userName, String userEmail, String userPassword) async {
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
@@ -60,7 +61,22 @@ class UserData {
     });
   }
 
+  /// **************************DELETE USER DETAILS****************************/
   Future deleteAccount() async {
     await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+  }
+
+  /// **************************UPDATE USER EMAIL IN FIREBASE******************/
+  Future<bool> updateEmail(String? newEmail) async {
+    if ((FirebaseAuth.instance.currentUser != null) && (newEmail != null)) {
+      try {
+        await FirebaseAuth.instance.currentUser!.updateEmail(newEmail);
+      } on FirebaseAuthException {
+        return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 }

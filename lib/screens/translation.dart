@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -9,8 +10,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kemet/widgets/drop_down_language.dart';
 import '../data/history_data.dart';
-import '../data/user_data.dart';
+import '../service/authentication_helper.dart';
 import '../service/prediction.dart';
+import '../widgets/snackbar.dart';
 import '../widgets/translation_text.dart';
 import '../widgets/translation.dart';
 
@@ -39,6 +41,8 @@ class _TranslationState extends State<Translation> {
     XFile? selectedImage;
     if (widget.isCamera == true) {
       selectedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+      _image = File(selectedImage!.path);
+      _cropImage(_image!);
     } else if (widget.isCamera == false) {
       selectedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -96,6 +100,14 @@ class _TranslationState extends State<Translation> {
     }
     setState(() {
       _image = File(_image!.path);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      checkGuestUser();
     });
   }
 
@@ -193,7 +205,6 @@ class _TranslationState extends State<Translation> {
                           ],
                         ),
                         SizedBox(
-                          // height: 10,
                           height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         Row(
@@ -226,7 +237,6 @@ class _TranslationState extends State<Translation> {
                           ],
                         ),
                         SizedBox(
-                          // height: 30.0,
                           height: MediaQuery.of(context).size.height * 0.06,
                         ),
                       ],
@@ -274,41 +284,38 @@ class _TranslationState extends State<Translation> {
                         width: MediaQuery.of(context).size.width * 0.38,
                         child: ElevatedButton(
                           onPressed: () async {
-                            await saveImage();
-                            history.addHistory(
-                              userId,
-                              downloadURL,
-                              prediction!,
-                              translation!,
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Row(
-                                  children: [
-                                    const Icon(
-                                        Icons.check_circle_outline_rounded,
-                                        color: Colors.green),
-                                    SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.02),
-                                    const Text('Saved successfully!'),
-                                  ],
-                                ),
-                                duration: const Duration(milliseconds: 3000),
-                                width: MediaQuery.of(context).size.width * 0.65,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.03,
-                                  vertical:
-                                      MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                            );
+                            if (_image == null) {
+                              showSnackBar(context, Icons.cancel_outlined,
+                                  Colors.red, 'Please upload an image');
+                              return;
+                            } else if (prediction == null ||
+                                translation == null) {
+                              showSnackBar(context, Icons.cancel_outlined,
+                                  Colors.red, 'Please wait a few moments');
+                              return;
+                            }
+                            if (isGuestUser) {
+                              return showSnackBar(
+                                  context,
+                                  Icons.cancel_outlined,
+                                  Colors.red,
+                                  'Please login/ register first');
+                            } else {
+                              await saveImage();
+                              final user = FirebaseAuth.instance.currentUser!;
+                              String userId = user.uid;
+                              history.addHistory(
+                                userId,
+                                downloadURL,
+                                prediction!,
+                                translation!,
+                              );
+                              showSnackBar(
+                                  context,
+                                  Icons.check_circle_outline_rounded,
+                                  Colors.green,
+                                  'Saved successfully!');
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor:

@@ -7,12 +7,14 @@ class InputTextFormField extends StatelessWidget {
   EdgeInsetsGeometry padding;
   bool showText;
   final TextEditingController? controller;
+  bool? enabled;
   InputTextFormField({
     Key? key,
     required this.hintText,
     required this.padding,
     required this.showText,
     this.controller,
+    this.enabled,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class InputTextFormField extends StatelessWidget {
         textAlign: TextAlign.center,
         controller: controller,
         obscureText: showText,
+        enabled: enabled,
         // validator: validateEmail,
         decoration: InputDecoration(
           hintText: hintText,
