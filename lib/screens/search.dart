@@ -1,16 +1,6 @@
 import 'dart:ui';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kemet/main.dart';
-import 'package:kemet/screens/history.dart';
-import 'package:kemet/screens/update_profile.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import '../data/repositories/user_provider.dart';
 import '../service/search.dart';
-import '../widgets/profile_widget.dart';
-import '../models/search_model.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -21,7 +11,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final search = Search();
-  String? searching;
+  String? searching = 'ex: 𓉐';
   final searchResult = "";
   final _searchController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -107,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     },
                                   ),
                                   filled: true,
-                                  hintText: "ex: walk, speak",
+                                  hintText: "ex: walk, mouth",
                                   hintStyle: const TextStyle(
                                       color:
                                           Color.fromARGB(255, 173, 170, 170)),

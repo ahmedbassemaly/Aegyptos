@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../models/search_model.dart';
 
 class Search {
   Future<Map<String, dynamic>> search(String text) async {
@@ -20,7 +18,7 @@ class Search {
     //Reem's URL
     // var url = "http://192.168.0.2:8000/predict";
     //Shehab's URL
-    var url = 'http://192.168.1.5:8000/search';
+    // var url = 'http://192.168.1.5:8000/search';
     //Basma's URL
     // var url = "http://192.168.100.8:8000/predict";
     //DEPLOYMENT SERVER
@@ -28,7 +26,7 @@ class Search {
     // var url = "https://aegyptosapp-46hlgdngoq-ey.a.run.app/predict";
     // var url = "https://aegyptos.ey.r.appspot.com/predict";
     //RAILWAY URL
-    // var url = "https://aegyptos-production.up.railway.app/search";
+    var url = "https://aegyptos-production.up.railway.app/search";
 
     // final request = http.MultipartRequest('POST', Uri.parse(url), body:{'text':text});
 

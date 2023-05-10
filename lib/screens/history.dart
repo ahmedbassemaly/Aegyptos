@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,16 +64,58 @@ class _HistoryState extends State<History> {
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .width *
-                                                              0.4,
+                                                              0.8,
                                                       height:
                                                           MediaQuery.of(context)
                                                                   .size
                                                                   .height *
-                                                              0.4,
-                                                      child: Image.network(
-                                                        value.docs[index]
-                                                            ['imageurl'],
-                                                        fit: BoxFit.contain,
+                                                              0.6,
+                                                      child: Column(
+                                                        children: [
+                                                          Expanded(
+                                                            child:
+                                                                Image.network(
+                                                              value.docs[index]
+                                                                  ['imageurl'],
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Column(
+                                                              children: [
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          13.0),
+                                                                  child: Text(
+                                                                    'English: ${value.docs[index]['english'] ?? "Couldn't load data"}',
+                                                                    style: const TextStyle(
+                                                                        fontSize:
+                                                                            20),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 10),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          13.0),
+                                                                  child: Text(
+                                                                    'Arabic: ${value.docs[index]['arabic'] ?? "Couldn't load data"}',
+                                                                    style: const TextStyle(
+                                                                        fontSize:
+                                                                            20),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
@@ -97,7 +138,8 @@ class _HistoryState extends State<History> {
                                                       children: [
                                                         DeleteHistoryIcon(
                                                             historyId: value
-                                                                .docs[index].id)
+                                                                .docs[index]
+                                                                .id),
                                                       ],
                                                     ),
                                                     ClipRRect(
@@ -135,19 +177,21 @@ class _HistoryState extends State<History> {
                                                       ),
                                                     ),
                                                     HistoryTranslation(
-                                                        language: 'English: ',
-                                                        languageTranslation: value
-                                                                    .docs[index]
-                                                                ['english'] ??
-                                                            const Text(
-                                                                "Couldn't load data")),
+                                                      language: 'English: ',
+                                                      languageTranslation: value
+                                                                  .docs[index]
+                                                              ['english'] ??
+                                                          const Text(
+                                                              "Couldn't load data"),
+                                                    ),
                                                     HistoryTranslation(
-                                                        language: 'Arabic: ',
-                                                        languageTranslation: value
-                                                                    .docs[index]
-                                                                ['arabic'] ??
-                                                            const Text(
-                                                                "Couldn't load data")),
+                                                      language: 'Arabic: ',
+                                                      languageTranslation: value
+                                                                  .docs[index]
+                                                              ['arabic'] ??
+                                                          const Text(
+                                                              "Couldn't load data"),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -156,9 +200,10 @@ class _HistoryState extends State<History> {
                                         : const Text(
                                             'No saved data',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 30,
-                                                color: Colors.red),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 30,
+                                              color: Colors.red,
+                                            ),
                                           );
                                   },
                                 );
