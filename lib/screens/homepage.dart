@@ -24,14 +24,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/Background4.png"),
+          fit: BoxFit.cover,
         ),
+      ),
+      child: SafeArea(
         child: Center(
           child: Column(children: [
             Consumer(

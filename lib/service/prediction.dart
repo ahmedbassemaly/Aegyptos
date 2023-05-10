@@ -22,7 +22,7 @@ class Predict {
     //Reem's URL
     // var url = "http://192.168.0.2:8000/predict";
     //Shehab's URL
-    // var url = 'http://192.168.1.2:8000/predict';
+    // var url = 'http://192.168.1.3:8000/predict';
     //Basma's URL
     // var url = "http://192.168.100.8:8000/predict";
     //DEPLOYMENT SERVER

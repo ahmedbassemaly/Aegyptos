@@ -39,18 +39,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.8), BlendMode.dstATop),
-                image: const AssetImage(
-                  "assets/images/newbackground.jpg",
-                ),
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.8), BlendMode.dstATop),
+              image: const AssetImage(
+                "assets/images/newbackground.jpg",
               ),
             ),
+          ),
+          child: SafeArea(
             child: ListView(
               children: [
                 Column(

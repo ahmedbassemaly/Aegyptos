@@ -17,20 +17,20 @@ class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/Background4.png"),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/Background4.png"),
+            fit: BoxFit.cover,
           ),
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-              child: Container(
-                alignment: Alignment.topLeft,
-                color: Colors.grey.withOpacity(0.3),
+        ),
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              alignment: Alignment.topLeft,
+              color: Colors.grey.withOpacity(0.3),
+              child: SafeArea(
                 child: SingleChildScrollView(
                   child: Container(
                     padding: const EdgeInsets.all(10),

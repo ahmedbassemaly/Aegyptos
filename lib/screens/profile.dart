@@ -34,20 +34,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return const GuestUser();
     } else {
       return Scaffold(
-        body: SafeArea(
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/Background4.png"),
-                fit: BoxFit.cover,
-              ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/Background4.png"),
+              fit: BoxFit.cover,
             ),
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.grey.withOpacity(0.3),
+          ),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                alignment: Alignment.center,
+                color: Colors.grey.withOpacity(0.3),
+                child: SafeArea(
                   child: SingleChildScrollView(
                     child: Container(
                       padding: const EdgeInsets.all(10),
