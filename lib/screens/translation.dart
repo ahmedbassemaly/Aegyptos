@@ -37,23 +37,27 @@ class _TranslationState extends State<Translation> {
   String downloadURL = '';
   XFile? selectedImage;
   final history = History();
+  bool uploadOrCamera = false;
 
   Future getImage(isCamera) async {
     XFile? selectedImage;
     if (widget.isCamera == true) {
       selectedImage = await ImagePicker().pickImage(source: ImageSource.camera);
       _image = File(selectedImage!.path);
+      uploadOrCamera = true;
       _cropImage(_image!);
     } else if (widget.isCamera == false) {
       selectedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
       _image = File(selectedImage!.path);
+      uploadOrCamera = false;
       _cropImage(_image!);
     }
     setState(() {
       prediction = null;
       translation = null;
       isFirstTime = false;
+      uploadOrCamera;
     });
   }
 
@@ -76,7 +80,7 @@ class _TranslationState extends State<Translation> {
       maxWidth: 800,
     );
     _image = cropped;
-    final results = await predict.predict(_image);
+    final results = await predict.predict(_image, uploadOrCamera);
     setState(() {
       _image = cropped;
       prediction = results.prediction.toString();

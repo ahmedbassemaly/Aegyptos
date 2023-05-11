@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../models/prediction_model.dart';
 
 class Predict {
-  Future<PredictionModel> predict(File? image) async {
+  Future<PredictionModel> predict(File? image, bool uploadOrCamera) async {
     final results = PredictionModel(
       gardinerCodePronunciation: '',
       prediction: 'Loading...',
@@ -36,6 +36,7 @@ class Predict {
     request.files.add(
       await http.MultipartFile.fromPath('image', image.path),
     );
+        request.fields['uploadOrCamera'] = uploadOrCamera.toString();
 
     final response = await http.Response.fromStream(await request.send());
 

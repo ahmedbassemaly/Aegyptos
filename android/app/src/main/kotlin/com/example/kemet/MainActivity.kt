@@ -1,4 +1,4 @@
-package com.example.kemet
+package app.aegyptos
 
 import io.flutter.embedding.android.FlutterActivity
 
