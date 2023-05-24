@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kemet/main.dart';
+import 'package:kemet/screens/contact.dart';
+// import 'package:kemet/screens/edit_pfp.dart';
 import 'package:kemet/screens/history.dart';
+import 'package:kemet/screens/settings.dart';
 import 'package:kemet/screens/update_profile.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../data/repositories/user_provider.dart';
@@ -76,10 +79,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(100),
                                       color: Colors.white),
-                                  child: const Icon(
-                                    Icons.edit,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.edit),
                                     color: Colors.black,
-                                    size: 20,
+                                    onPressed: () {
+                                      // PersistentNavBarNavigator.pushNewScreen(
+                                      //   context,
+                                      //   screen: const EditPFPScreen(),
+                                      //   withNavBar: false,
+                                      //   pageTransitionAnimation:
+                                      //       PageTransitionAnimation.cupertino,
+                                      // );
+                                    },
                                   ),
                                 ),
                               ),
@@ -165,7 +176,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: "Settings",
                               icon: Icons.settings,
                               IconColor: Colors.black,
-                              onPress: () {}),
+                              onPress: () {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: const SettingsScreen(),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
+                              }),
                           ProfileMenuWidget(
                               title: "History",
                               icon: Icons.history,
@@ -184,7 +203,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: "Contact Information",
                               icon: Icons.phone,
                               IconColor: Colors.black,
-                              onPress: () {}),
+                              onPress: () {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: const ContactScreen(),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
+                              }),
                           ProfileMenuWidget(
                               title: "Logout",
                               icon: Icons.logout,
