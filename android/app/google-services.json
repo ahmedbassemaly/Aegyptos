@@ -7,14 +7,22 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:287944064947:android:b55910ffb8e7e2a03855c6",
+        "mobilesdk_app_id": "1:287944064947:android:eed5573d1f414a033855c6",
         "android_client_info": {
           "package_name": "app.aegyptos"
         }
       },
       "oauth_client": [
         {
-          "client_id": "287944064947-e1ilc45ls7bejjaa1isjevmgonusm5vp.apps.googleusercontent.com",
+          "client_id": "287944064947-8r0n49a4t45o9kusq9dava4639rs5alj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.aegyptos",
+            "certificate_hash": "9798506623019492e033f6af5d46344004993b08"
+          }
+        },
+        {
+          "client_id": "287944064947-bu0mjt1f4m8aaq18eopmjev8shgj38dj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,52 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "287944064947-e1ilc45ls7bejjaa1isjevmgonusm5vp.apps.googleusercontent.com",
+              "client_id": "287944064947-9ioot5dccf17k5o14h5saoi6mddh7cp0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287944064947:android:b55910ffb8e7e2a03855c6",
+        "android_client_info": {
+          "package_name": "com.example.kemet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287944064947-bu7hnjq5qcdtacpllsoqdphg3mopq39l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kemet",
+            "certificate_hash": "2c8d3d1f957c02b9781587ec3243bc5402bbf6a0"
+          }
+        },
+        {
+          "client_id": "287944064947-r7ep370iltnfhum5td5eolarmtr156ji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kemet",
+            "certificate_hash": "9798506623019492e033f6af5d46344004993b08"
+          }
+        },
+        {
+          "client_id": "287944064947-bu0mjt1f4m8aaq18eopmjev8shgj38dj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASHSA4OxJ87EqrYwnsm8vl2sq0FngFhq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287944064947-9ioot5dccf17k5o14h5saoi6mddh7cp0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
