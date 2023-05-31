@@ -79,4 +79,19 @@ class UserData {
       return false;
     }
   }
+
+  /// **************************SEND EMAIL VERIFICATION******************/
+
+  Future sendEmailVerification() async {
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
+    } on FirebaseAuthException {
+      return false;
+    }
+  }
+
+  /// **************************************************************************/
 }
