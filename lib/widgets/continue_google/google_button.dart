@@ -20,14 +20,20 @@ class GoogleContinueButton extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () async {
-            await AuthService().signInWithGoogle();
-            String? userName = FirebaseAuth.instance.currentUser?.displayName;
-            String? userEmail = FirebaseAuth.instance.currentUser?.email;
-            final googleUser = FirebaseAuth.instance.currentUser!;
-            String googleUserId = googleUser.uid;
-            await userData.addUserDetails(
-                googleUserId, userName!, userEmail!, '', 'user');
-            Navigator.pushNamed(context, 'navBar');
+            try {
+              await AuthService().signInWithGoogle();
+              String? userName = FirebaseAuth.instance.currentUser?.displayName;
+              String? userEmail = FirebaseAuth.instance.currentUser?.email;
+              final googleUser = FirebaseAuth.instance.currentUser!;
+              String googleUserId = googleUser.uid;
+              await userData.addUserDetails(
+                  googleUserId, userName!, userEmail!, '', 'user');
+              Navigator.pushNamed(context, 'navBar');
+            } catch (e) {
+              // Handle the error here
+              print('Error signing in with Google: $e');
+              // Show an error message or perform any other necessary actions
+            }
           },
           child: Container(
             decoration: BoxDecoration(

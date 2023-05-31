@@ -1,15 +1,18 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/navigation.dart';
+import 'package:kemet/screens/no_internet_connection.dart';
 import 'package:kemet/screens/update_profile.dart';
 import 'screens/bottom_navbar.dart';
 import 'screens/history.dart';
 import 'screens/menu.dart';
-import 'screens/search.dart';
 import 'screens/signup.dart';
 import 'screens/homepage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'screens/verify_email_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +29,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        home: StreamBuilder<ConnectivityResult>(
+          stream: Connectivity().onConnectivityChanged,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data == ConnectivityResult.none) {
+                return const InternetConnection();
+              } else {
+                return const MyScreen();
+              }
+            } else {
+              return const InternetConnection();
+            }
+          },
+        ),
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        initialRoute: 'myScreen',
+        // initialRoute: 'myScreen',
         routes: {
           'myScreen': (context) => const MyScreen(),
           'loginPage': (context) => const LoginPageWrapper(),
@@ -38,6 +55,7 @@ class MyApp extends StatelessWidget {
           'navigation': (context) => const SwipeScreen(),
           'editProfile': (context) => const UpdateProfileScreen(),
           'history': (context) => const History(),
+          'verifyEmailPage': (context) => const VerifyEmailPage(),
         });
   }
 }
