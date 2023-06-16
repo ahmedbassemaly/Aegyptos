@@ -9,7 +9,7 @@ import '../data/repositories/user_provider.dart';
 import '../data/user_data.dart';
 import '../widgets/check_user_acc.dart';
 import '../widgets/continue_google/continue_with_divider.dart';
-import '../widgets/continue_google/google_button.dart';
+// import '../widgets/continue_google/google_button.dart';
 import '../widgets/input_text_form_field.dart';
 import '../widgets/login_signup_button.dart';
 
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                       // height: 10,
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
-                    GoogleContinueButton(userData: userData),
+                    // GoogleContinueButton(userData: userData),
                     CheckUserAccount(
                       text: "Not a member?",
                       text1: 'Register Now',

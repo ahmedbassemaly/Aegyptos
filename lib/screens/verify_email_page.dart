@@ -93,6 +93,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                               height:
                                   MediaQuery.of(context).size.height * 0.009,
                             ),
+                            // TextButton(
+                            //   onPressed: () {
+                            //     FirebaseAuth.instance.signOut();
+                            //   },
+                            //   child: const Text(
+                            //     'Cancel',
+                            //     style: TextStyle(fontSize: 24),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

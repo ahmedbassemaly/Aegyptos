@@ -30,13 +30,15 @@ class Predict {
     // var url = "https://aegyptosapp-46hlgdngoq-ey.a.run.app/predict";
     // var url = "https://aegyptos.ey.r.appspot.com/predict";
     //RAILWAY URL
-    var url = "https://aegyptos-production.up.railway.app/predict";
+    // var url = "https://solitary-fruit-production.up.railway.app/predict";
+    //RENDER URL
+    var url = "https://aegyptos.onrender.com/predict";
 
     final request = http.MultipartRequest('POST', Uri.parse(url));
     request.files.add(
       await http.MultipartFile.fromPath('image', image.path),
     );
-        request.fields['uploadOrCamera'] = uploadOrCamera.toString();
+    request.fields['uploadOrCamera'] = uploadOrCamera.toString();
 
     final response = await http.Response.fromStream(await request.send());
 
