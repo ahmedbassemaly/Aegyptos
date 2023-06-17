@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../constants/constants.dart';
 import '../data/repositories/user_provider.dart';
 import '../main.dart';
 import 'carousel.dart';
@@ -25,10 +26,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/Background4.png"),
+          image: const AssetImage("assets/images/Background4.png"),
           fit: BoxFit.cover,
+          //Dark theme?
+
+          colorFilter: iconDark
+              ? const ColorFilter.mode(
+                  Color.fromARGB(255, 16, 103, 173),
+                  BlendMode.modulate,
+                )
+              : null,
         ),
       ),
       child: SafeArea(
@@ -42,8 +51,8 @@ class _HomePageState extends State<HomePage> {
                       child: Center(
                         child: Text(
                           'Welcome, ${value?.get('Name')}',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: iconDark ? Colors.white : Colors.black,
                             fontSize: 25,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,

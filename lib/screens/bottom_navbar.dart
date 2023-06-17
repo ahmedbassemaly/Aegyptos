@@ -34,36 +34,58 @@ class _BottomNavBarState extends State<BottomNavBar> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.cloud_upload_rounded),
         title: 'Upload',
-        activeColorPrimary: ConstantsColors.activeNavBarColorPrimary,
-        inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
-        activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
+        activeColorPrimary: iconDark
+            ? ConstantsColors.darkActiveNavBarColorPrimary
+            : ConstantsColors.activeNavBarColorPrimary,
+        inactiveColorPrimary: iconDark
+            ? ConstantsColors.darkInactiveNavBarColor
+            : ConstantsColors.inactiveNavBarColor,
+        activeColorSecondary: iconDark
+            ? ConstantsColors.activeNavBarColorSecondary
+            : ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.camera_alt_sharp),
         title: 'Camera',
-        activeColorPrimary: ConstantsColors.activeNavBarColorPrimary,
-        inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
+        activeColorPrimary: iconDark
+            ? ConstantsColors.darkActiveNavBarColorPrimary
+            : ConstantsColors.activeNavBarColorPrimary,
+        inactiveColorPrimary: iconDark
+            ? ConstantsColors.darkInactiveNavBarColor
+            : ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: 'Home',
-        activeColorPrimary: ConstantsColors.activeNavBarColorPrimary,
-        inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
+        activeColorPrimary: iconDark
+            ? ConstantsColors.darkActiveNavBarColorPrimary
+            : ConstantsColors.activeNavBarColorPrimary,
+        inactiveColorPrimary: iconDark
+            ? ConstantsColors.darkInactiveNavBarColor
+            : ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.search_rounded),
         title: 'Search',
-        activeColorPrimary: ConstantsColors.activeNavBarColorPrimary,
-        inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
+        activeColorPrimary: iconDark
+            ? ConstantsColors.darkActiveNavBarColorPrimary
+            : ConstantsColors.activeNavBarColorPrimary,
+        inactiveColorPrimary: iconDark
+            ? ConstantsColors.darkInactiveNavBarColor
+            : ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.person),
         title: 'Profile',
-        activeColorPrimary: ConstantsColors.activeNavBarColorPrimary,
-        inactiveColorPrimary: ConstantsColors.inactiveNavBarColor,
+        activeColorPrimary: iconDark
+            ? ConstantsColors.darkActiveNavBarColorPrimary
+            : ConstantsColors.activeNavBarColorPrimary,
+        inactiveColorPrimary: iconDark
+            ? ConstantsColors.darkInactiveNavBarColor
+            : ConstantsColors.inactiveNavBarColor,
         activeColorSecondary: ConstantsColors.activeNavBarColorSecondary,
       ),
     ];
@@ -83,7 +105,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       screens: _screens,
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: ConstantsColors.primaryColor,
+      backgroundColor: iconDark
+          ? ConstantsColors.darkPrimaryColor
+          : ConstantsColors.primaryColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,

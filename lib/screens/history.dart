@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../constants/constants.dart';
 import '../data/repositories/history_provider.dart';
 import '../widgets/history/delete_history_icon.dart';
 import '../widgets/history/history_translation.dart';
@@ -17,10 +18,18 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
+            image: const AssetImage("assets/images/Background4.png"),
             fit: BoxFit.cover,
+            //Dark theme?
+
+            colorFilter: iconDark
+                ? const ColorFilter.mode(
+                    Color.fromARGB(255, 16, 103, 173),
+                    BlendMode.modulate,
+                  )
+                : null,
           ),
         ),
         child: ClipRRect(

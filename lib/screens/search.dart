@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import '../constants/constants.dart';
 import '../service/search.dart';
 import '../widgets/check_user_search.dart';
 
@@ -25,10 +26,18 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
+            image: const AssetImage("assets/images/Background4.png"),
             fit: BoxFit.cover,
+            //Dark theme?
+
+            colorFilter: iconDark
+                ? const ColorFilter.mode(
+                    Color.fromARGB(255, 16, 103, 173),
+                    BlendMode.modulate,
+                  )
+                : null,
           ),
         ),
         child: ClipRRect(
@@ -45,10 +54,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 15),
-                        const Text(
+                        Text(
                           "Search for a word",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: iconDark ? Colors.white : Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
@@ -146,7 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               );
                             },
                           ),
-                      ],       
+                      ],
                     ),
                   ),
                 ),

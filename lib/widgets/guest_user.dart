@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../constants/constants.dart';
 import '../main.dart';
 import 'login_signup_button.dart';
 
@@ -16,10 +17,18 @@ class GuestUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
+            image: const AssetImage("assets/images/Background4.png"),
             fit: BoxFit.cover,
+            //Dark theme?
+
+            colorFilter: iconDark
+                ? const ColorFilter.mode(
+                    Color.fromARGB(255, 16, 103, 173),
+                    BlendMode.modulate,
+                  )
+                : null,
           ),
         ),
         child: ClipRRect(
@@ -37,12 +46,12 @@ class GuestUser extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.all(
                               MediaQuery.of(context).size.height * 0.009),
-                          child: const Text(
+                          child: Text(
                             " Please sign up or log\n in to access this page.",
                             style: TextStyle(
                               fontSize: 28.5,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: iconDark ? Colors.white : Colors.black,
                               fontFamily: 'SortsMillGoudy',
                             ),
                           ),

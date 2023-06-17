@@ -9,6 +9,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kemet/widgets/drop_down_language.dart';
+import '../constants/constants.dart';
 import '../data/history_data.dart';
 import '../service/authentication_helper.dart';
 import '../service/prediction.dart';
@@ -124,10 +125,18 @@ class _TranslationState extends State<Translation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
+            image: const AssetImage("assets/images/Background4.png"),
             fit: BoxFit.cover,
+            //Dark theme?
+
+            colorFilter: iconDark
+                ? const ColorFilter.mode(
+                    Color.fromARGB(255, 16, 103, 173),
+                    BlendMode.modulate,
+                  )
+                : null,
           ),
         ),
         child: ClipRRect(
@@ -195,11 +204,19 @@ class _TranslationState extends State<Translation> {
                                           child: TranslationText(
                                             text: 'English: ',
                                             fontWeight: FontWeight.bold,
+                                            fontColor: iconDark
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                         Flexible(
                                           child: Stack(children: [
-                                            TranslationText(text: prediction!),
+                                            TranslationText(
+                                              text: prediction!,
+                                              fontColor: iconDark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
                                           ]),
                                         ),
                                       ],
@@ -231,12 +248,19 @@ class _TranslationState extends State<Translation> {
                                           child: TranslationText(
                                             text: 'Arabic: ',
                                             fontWeight: FontWeight.bold,
+                                            fontColor: iconDark
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                         translation != null
                                             ? Flexible(
                                                 child: TranslationText(
-                                                    text: translation!))
+                                                text: translation!,
+                                                fontColor: iconDark
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                              ))
                                             : const Center(
                                                 child:
                                                     CircularProgressIndicator()),

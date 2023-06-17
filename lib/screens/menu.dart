@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:kemet/screens/login.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
+import '../constants/constants.dart';
+
 class MyScreen extends StatefulWidget {
   const MyScreen({super.key});
 
@@ -18,10 +20,18 @@ class _MyScreenState extends State<MyScreen> {
       body: LiquidSwipe(
         pages: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/newbackground.jpg"),
+                image: const AssetImage("assets/images/Background4.png"),
                 fit: BoxFit.cover,
+                //Dark theme?
+
+                colorFilter: iconDark
+                    ? const ColorFilter.mode(
+                        Color.fromARGB(255, 16, 103, 173),
+                        BlendMode.modulate,
+                      )
+                    : null,
               ),
             ),
           ),

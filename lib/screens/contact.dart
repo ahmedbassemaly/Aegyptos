@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
+
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
 
@@ -13,10 +15,18 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
+            image: const AssetImage("assets/images/Background4.png"),
             fit: BoxFit.cover,
+            //Dark theme?
+
+            colorFilter: iconDark
+                ? const ColorFilter.mode(
+                    Color.fromARGB(255, 16, 103, 173),
+                    BlendMode.modulate,
+                  )
+                : null,
           ),
         ),
         child: ClipRRect(

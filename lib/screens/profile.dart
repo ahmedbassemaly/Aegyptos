@@ -10,6 +10,7 @@ import 'package:kemet/screens/history.dart';
 import 'package:kemet/screens/settings.dart';
 import 'package:kemet/screens/update_profile.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../constants/constants.dart';
 import '../data/repositories/user_provider.dart';
 import '../service/authentication_helper.dart';
 import '../widgets/guest_user.dart';
@@ -38,10 +39,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       return Scaffold(
         body: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/Background4.png"),
+              image: const AssetImage("assets/images/Background4.png"),
               fit: BoxFit.cover,
+              //Dark theme?
+
+              colorFilter: iconDark
+                  ? const ColorFilter.mode(
+                      Color.fromARGB(255, 16, 103, 173),
+                      BlendMode.modulate,
+                    )
+                  : null,
             ),
           ),
           child: ClipRRect(
@@ -103,9 +112,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 return Center(
                                   child: Text(
                                     "${value.get('Name')}",
-                                    style: const TextStyle(
-                                      fontSize: 30,
-                                    ),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        color: iconDark
+                                            ? Colors.white
+                                            : Colors.black),
                                   ),
                                 );
                               },
@@ -123,9 +134,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 return Center(
                                   child: Text(
                                     "${value.get('Email')}",
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                    ),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: iconDark
+                                            ? Colors.white
+                                            : Colors.black),
                                   ),
                                 );
                               },
@@ -156,12 +169,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 238, 191, 138),
+                                  backgroundColor: iconDark
+                                      ? ConstantsColors.darkPrimaryColor
+                                      : const Color.fromARGB(
+                                          255, 238, 191, 138),
                                   side: BorderSide.none,
                                   shape: const StadiumBorder()),
-                              child: const Text("Edit Profile",
-                                  style: TextStyle(color: Colors.black)),
+                              child: Text("Edit Profile",
+                                  style: TextStyle(
+                                      color: iconDark
+                                          ? Colors.white
+                                          : Colors.black)),
                               // child: const Text(tEditProfile,
                               // style: TextStyle(color: tDarkColor)),
                             ),
@@ -175,7 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ProfileMenuWidget(
                               title: "Settings",
                               icon: Icons.settings,
-                              IconColor: Colors.black,
+                              textColor: iconDark ? Colors.white : Colors.black,
+                              IconColor: iconDark ? Colors.white : Colors.black,
                               onPress: () {
                                 PersistentNavBarNavigator.pushNewScreen(
                                   context,
@@ -188,7 +207,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ProfileMenuWidget(
                               title: "History",
                               icon: Icons.history,
-                              IconColor: Colors.black,
+                              textColor: iconDark ? Colors.white : Colors.black,
+                              IconColor: iconDark ? Colors.white : Colors.black,
                               onPress: () {
                                 //Navigate to the saved page
                                 PersistentNavBarNavigator.pushNewScreen(
@@ -202,7 +222,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ProfileMenuWidget(
                               title: "Contact Information",
                               icon: Icons.phone,
-                              IconColor: Colors.black,
+                              textColor: iconDark ? Colors.white : Colors.black,
+                              IconColor: iconDark ? Colors.white : Colors.black,
                               onPress: () {
                                 PersistentNavBarNavigator.pushNewScreen(
                                   context,
@@ -216,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: "Logout",
                               icon: Icons.logout,
                               IconColor: const Color.fromARGB(255, 206, 56, 45),
-                              textColor: Colors.black,
+                              textColor: iconDark ? Colors.white : Colors.black,
                               endIcon: false,
                               onPress: () async {
                                 final GoogleSignIn googleSignIn =

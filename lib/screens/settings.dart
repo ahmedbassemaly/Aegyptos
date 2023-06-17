@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
 import '../widgets/profile_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -16,16 +17,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/Background4.png"),
+            image: const AssetImage("assets/images/Background4.png"),
             fit: BoxFit.cover,
             //Dark theme?
 
-            // colorFilter: const ColorFilter.mode(
-            //   Color.fromARGB(255, 16, 103, 173),
-            //   BlendMode.modulate,
-            // ),
+            colorFilter: iconDark
+                ? const ColorFilter.mode(
+                    Color.fromARGB(255, 16, 103, 173),
+                    BlendMode.modulate,
+                  )
+                : null,
           ),
         ),
         child: ClipRRect(
@@ -40,19 +43,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           "Settings",
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: iconDark ? Colors.white : Colors.black),
                         ),
                         ProfileMenuWidget(
                             title: "Dark Mode",
+                            textColor: iconDark ? Colors.white : Colors.black,
                             icon: Icons.dark_mode,
-                            IconColor: Colors.black,
-                            onPress: () {}),
+                            IconColor: iconDark ? Colors.white : Colors.black,
+                            onPress: () {
+                              iconDark = !iconDark;
+                              print(iconDark);
+                              setState(() {});
+                            }),
                         ProfileMenuWidget(
                             title: "Language",
+                            textColor: iconDark ? Colors.white : Colors.black,
                             icon: Icons.language,
-                            IconColor: Colors.black,
+                            IconColor: iconDark ? Colors.white : Colors.black,
                             onPress: () {}),
                       ])),
                 ),
