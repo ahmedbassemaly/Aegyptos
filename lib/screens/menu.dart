@@ -22,7 +22,7 @@ class _MyScreenState extends State<MyScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: const AssetImage("assets/images/Background4.png"),
+                image: const AssetImage("assets/images/newbackground.jpg"),
                 fit: BoxFit.cover,
                 //Dark theme?
 
