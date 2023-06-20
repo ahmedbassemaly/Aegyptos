@@ -24,9 +24,9 @@ class Search {
     // var url = "https://aegyptosapp-46hlgdngoq-ey.a.run.app/predict";
     // var url = "https://aegyptos.ey.r.appspot.com/predict";
     //RAILWAY URL
-    var url = "https://solitary-fruit-production.up.railway.app/search";
+    // var url = "https://solitary-fruit-production.up.railway.app/search";
     //RENDER URL
-    // var url = "https://aegyptos.onrender.com/search";
+    var url = "https://aegyptos.onrender.com/search";
 
     // final request = http.MultipartRequest('POST', Uri.parse(url), body:{'text':text});
 
